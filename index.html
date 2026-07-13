@@ -319,13 +319,10 @@
                 
                 if (zoneId === "CR01") {
                     currentPositions = ["A", "B", "C", "D"];
-                } else if (zoneId === "A04" || zoneId === "A05") {
-                    currentPositions = ["A", "B", "C", "D", "E", "F", "G"];
                 } else if (zoneId === "A01" && (rackNum === "027" || rackNum === "029" || rackNum === "030")) {
                     currentPositions = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
                 }
 
-                // Changes 'Rack 001' to 'A01-001' based on context rules
                 output += `<details data-zone="${zoneId}" data-rack="${rackNum}" onclick="lazyLoadRack(this)">`;
                 output += `<summary>📦 ${zoneId}-${rackNum}</summary>`;
                 
