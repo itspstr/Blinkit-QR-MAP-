@@ -61,21 +61,24 @@
             100% { transform: scale(0.85); opacity: 0.5; }
         }
 
-        /* Search Bar Wrapper with Voice Action Button */
+        /* Responsive search bar with Speech integration */
         .search-container { 
             position: sticky; 
             top: 8px; 
             z-index: 1000; 
-            margin-bottom: 8px;
+            margin-bottom: 16px;
             width: 100%;
             box-sizing: border-box;
             display: flex;
-            align-items: center;
+            gap: 6px;
+        }
+        .search-input-wrapper {
             position: relative;
+            flex: 1;
         }
         #searchInput {
             width: 100%; 
-            padding: 12px 50px 12px 16px; 
+            padding: 12px 45px 12px 16px; 
             box-sizing: border-box;
             border: 2.5px solid var(--blinkit-green); 
             border-radius: 8px;
@@ -85,60 +88,65 @@
             background-color: #fff;
             box-shadow: 0 4px 10px rgba(0,0,0,0.06);
         }
-        .voice-search-btn {
+        .voice-btn {
             position: absolute;
             right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 18px;
-            padding: 6px;
+            padding: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #555;
-            transition: color 0.2s;
         }
-        .voice-search-btn.listening {
-            color: #ff3b30;
-            animation: voice-pulse 1s infinite alternate;
+        .voice-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #7f8c8d;
+            transition: fill 0.2s;
         }
-        @keyframes voice-pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.15); }
+        .voice-btn.listening svg {
+            fill: #e74c3c;
+            animation: pulse-glow 1s infinite alternate;
         }
 
-        /* Instant QR Spotlight Dashboard right under Search */
-        #qrSpotlightDashboard {
+        /* Dynamic Visual QR Spotlight Matcher Box */
+        .spotlight-qr-panel {
             display: none;
             background: #fff;
-            border: 3px solid var(--blinkit-yellow);
+            border: 2.5px dashed var(--blinkit-green);
             border-radius: 8px;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 16px;
             text-align: center;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            animation: fadeIn 0.3s ease-in-out;
         }
-        #qrSpotlightDashboard h3 {
-            margin: 0 0 8px 0;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--blinkit-dark);
-            text-transform: uppercase;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        #spotlightTargetBox {
-            max-width: 160px;
-            margin: 0 auto;
-            background: var(--bg-light);
-            border-radius: 6px;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-        }
-        #spotlightTargetBox .code-tag {
+        .spotlight-title {
             font-size: 11px;
             font-weight: 800;
-            margin-bottom: 8px;
             color: var(--blinkit-green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .spotlight-code {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--blinkit-dark);
+            margin-bottom: 10px;
+        }
+        .spotlight-img {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto;
+            display: block;
         }
 
         /* Layout Grid Panels */
@@ -280,17 +288,11 @@
         }
         .banner-cold { background: #2f3640; border-left: 5px solid var(--blinkit-yellow); }
 
-        /* Footers with elevated margins to completely escape mobile nav bars */
-        .footer-primary {
-            text-align: center; padding: 12px 16px 4px 16px; margin-top: 30px;
+        footer {
+            text-align: center; padding: 16px; margin-top: 15px;
             border-top: 1px solid #dcdde1; font-size: 11px; font-weight: 600; color: #7f8c8d;
         }
-        .footer-primary span { color: var(--blinkit-dark); font-weight: 800; }
-        
-        .footer-secondary {
-            text-align: center; padding: 4px 16px 45px 16px; font-size: 11px; font-weight: 600; color: #7f8c8d;
-        }
-        .footer-secondary span { color: var(--blinkit-dark); font-weight: 800; }
+        footer span { color: var(--blinkit-dark); font-weight: 800; }
     </style>
 </head>
 <body>
@@ -305,14 +307,21 @@
     </header>
 
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="⚡ Type or use mic to match instantly..." onkeyup="filterLocations()">
-        <button class="voice-search-btn" id="voiceSearchBtn" onclick="toggleVoiceSearch()" title="Voice Search">🎤</button>
+        <div class="search-input-wrapper">
+            <input type="text" id="searchInput" placeholder="⚡ Type location code to match instantly..." onkeyup="filterLocations()">
+            <button class="voice-btn" id="voiceBtn" onclick="startVoiceSearch()" title="Search via Voice">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+                </svg>
+            </button>
+        </div>
     </div>
 
-    <!-- INSTANT SPOTLIGHT PORTAL -->
-    <div id="qrSpotlightDashboard">
-        <h3>🎯 Instant QR Match</h3>
-        <div id="spotlightTargetBox"></div>
+    <!-- SPOTLIGHT MATCH PANEL -->
+    <div class="spotlight-qr-panel" id="spotlightPanel">
+        <div class="spotlight-title">✨ Direct QR Target Match</div>
+        <div class="spotlight-code" id="spotlightCode">F0-A01-001-01-A</div>
+        <img class="spotlight-img" id="spotlightImg" src="" alt="Live Matched QR Code">
     </div>
 
     <!-- MAIN GRID WRAPPER -->
@@ -362,13 +371,9 @@
         </div>
     </div>
 
-    <!-- DOUBLE FOOTER SYSTEM -->
-    <div class="footer-primary">
+    <footer>
         Layout Map Maintained by: <span>Prince Tanwar</span>
-    </div>
-    <div class="footer-secondary">
-        ©: <span>PSTR</span>
-    </div>
+    </footer>
 
     <script>
         const config = {
@@ -440,86 +445,84 @@
 
         buildStoreLayout();
 
-        // High-speed searching + instant dashboard spotlighting
+        // High-speed text layout filter & spotlight loader logic
         function filterLocations() {
             let input = document.getElementById('searchInput').value.toUpperCase().trim();
             let cards = document.querySelectorAll('.location-box');
-            let spotlightDashboard = document.getElementById('qrSpotlightDashboard');
-            let spotlightTargetBox = document.getElementById('spotlightTargetBox');
+            let spotlightPanel = document.getElementById('spotlightPanel');
+            let spotlightCode = document.getElementById('spotlightCode');
+            let spotlightImg = document.getElementById('spotlightImg');
             
-            let explicitMatchCard = null;
+            let exactMatchFound = false;
 
             cards.forEach(card => {
                 let code = card.getAttribute('data-code');
                 if (code.includes(input)) {
                     card.style.display = 'block';
-                    
-                    if (code === input) {
-                        explicitMatchCard = card;
-                    }
-                    
                     let details = card.closest('details');
                     if (details && input.length >= 3) {
                         details.open = true;
                         lazyLoadRack(details);
+                    }
+                    // If user captures/enters a precise location marker pattern
+                    if (code === input) {
+                        exactMatchFound = true;
+                        spotlightCode.innerText = code;
+                        spotlightImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${code}`;
                     }
                 } else {
                     card.style.display = 'none';
                 }
             });
             
-            // If explicit hit is recorded, render it in the center dashboard view
-            if (explicitMatchCard) {
-                let imgTag = explicitMatchCard.querySelector('.qr-target-img');
-                let liveSrc = imgTag.getAttribute('src') || imgTag.getAttribute('data-src');
-                
-                spotlightTargetBox.innerHTML = `
-                    <span class="code-tag">${input}</span>
-                    <img src="${liveSrc}" style="width:100%; max-width:130px; height:auto; display:block; margin:0 auto; background:#fff; padding:4px; border-radius:4px;" alt="QR Match">
-                `;
-                spotlightDashboard.style.display = 'block';
+            // Show spotlight preview box instantly above map grid if exact targeted match 
+            if (exactMatchFound) {
+                spotlightPanel.style.display = 'block';
             } else {
-                spotlightDashboard.style.display = 'none';
-                spotlightTargetBox.innerHTML = '';
+                spotlightPanel.style.display = 'none';
             }
-            
+
             if (input.length === 0) {
                 document.querySelectorAll('details').forEach(d => d.open = false);
                 cards.forEach(c => c.style.display = 'block');
-                spotlightDashboard.style.display = 'none';
+                spotlightPanel.style.display = 'none';
             }
         }
 
-        // Web Speech API Interface Configuration
-        let recognition;
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        // Web Speech Recognition handler for mobile floor operations
+        function startVoiceSearch() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
+            if (!SpeechRecognition) {
+                alert("Speech recognition isn't fully supported on local files or this browser setup. Try running on HTTPS site.");
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            const voiceBtn = document.getElementById('voiceBtn');
+
             recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
 
-            recognition.onresult = function(event) {
-                let textResult = event.results[0][0].transcript;
-                // Clean formatting mismatches (e.g., converting "A1" variations into "A01" structures)
-                textResult = textResult.replace(/\s+/g, '').toUpperCase();
+            recognition.onstart = () => {
+                voiceBtn.classList.add('listening');
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Speech Recognition Error: ", event.error);
+                voiceBtn.classList.remove('listening');
+            };
+
+            recognition.onend = () => {
+                voiceBtn.classList.remove('listening');
+            };
+
+            recognition.onresult = (event) => {
+                let textResult = event.results[0][0].transcript.toUpperCase().replace(/\s+/g, '');
                 
-                let inputField = document.getElementById('searchInput');
-                inputField.value = textResult;
+                // Sanitization filters for warehouse pronunciation quirks
+                if (!textResult.startsWith('F0-') && textResult.startsWith('F')) {
+                    textResult = textResult.replace('F', 'F0-');
+                }
                 
-                document.getElementById('voiceSearchBtn').classList.remove('listening');
-                filterLocations();
-            };
-
-            recognition.onerror = function() {
-                document.getElementById('voiceSearchBtn').classList.remove('listening');
-            };
-
-            recognition.onend = function() {
-                document.getElementById('voiceSearchBtn').classList.remove('listening');
-            };
-        }
-
-        function toggleVoiceSearch() {
-            if (!recognition) {
-                alert("Voice search is not
+                document.getElementById('searchInput').value = 
