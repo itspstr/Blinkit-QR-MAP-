@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLINKIT STORE QR LAYOUT MAP</title>
+    <style>
+        :root {
+            --blinkit-yellow: #F7EC13;
+            --blinkit-green: #0C831F;
+            --blinkit-dark: #1C1C1C;
+            --bg-light: #F4F6F7;
+            --border-gray: #e6e9ed;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 12px;
+            color: var(--blinkit-dark);
+        }
+
+        /* Fixed Top Elements */
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--blinkit-dark) 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 14px 8px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-bottom: 4px solid var(--blinkit-yellow);
+            box-sizing: border-box;
+            width: 100%;
+        }
+        header h1 { margin: 0; font-size: 18px; font-weight: 900; color: var(--blinkit-yellow); text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { margin: 4px 0 0 0; font-size: 11px; color: #bdc3c7; }
+        
+        .system-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #2ed573;
+            background: rgba(46, 213, 115, 0.15);
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #2ed573;
+            border-radius: 50%;
+            animation: pulse-glow 1.4s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0% { transform: scale(0.85); opacity: 0.5; }
+            50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 6px #2ed573; }
+            100% { transform: scale(0.85); opacity: 0.5; }
+        }
+
+        /* Search Bar Wrapper with Voice Action Button */
+        .search-container { 
+            position: sticky; 
+            top: 8px; 
+            z-index: 1000; 
+            margin-bottom: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        #searchInput {
+            width: 100%; 
+            padding: 12px 50px 12px 16px; 
+            box-sizing: border-box;
+            border: 2.5px solid var(--blinkit-green); 
+            border-radius: 8px;
+            font-size: 14px; 
+            font-weight: 600; 
+            outline: none;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+        .voice-search-btn {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            transition: color 0.2s;
+        }
+        .voice-search-btn.listening {
+            color: #ff3b30;
+            animation: voice-pulse 1s infinite alternate;
+        }
+        @keyframes voice-pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.15); }
+        }
+
+        /* Instant QR Spotlight Dashboard right under Search */
+        #qrSpotlightDashboard {
+            display: none;
+            background: #fff;
+            border: 3px solid var(--blinkit-yellow);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+        #qrSpotlightDashboard h3 {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--blinkit-dark);
+            text-transform: uppercase;
+        }
+        #spotlightTargetBox {
+            max-width: 160px;
+            margin: 0 auto;
+            background: var(--bg-light);
+            border-radius: 6px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+        }
+        #spotlightTargetBox .code-tag {
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--blinkit-green);
+        }
+
+        /* Layout Grid Panels */
+        .scrollable-grid-panel {
+            width: 100%;
+            overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .parallel-floor-container {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            width: max-content;
+        }
+
+        .stacked-column-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 245px;
+        }
+
+        .cold-zone-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 759px; 
+        }
+        
+        .cold-top-columns {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .row-column {
+            width: 245px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border-gray);
+        }
+        .row-header {
+            font-size: 13px; font-weight: 800; color: #fff;
+            background: var(--blinkit-green);
+            padding: 10px; text-align: center;
+        }
+        .row-header-a07 {
+            background: var(--blinkit-dark);
+        }
+
+        .racks-accumulator {
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        details {
+            background: #fafafa; border: 1px solid var(--border-gray); border-radius: 5px;
+            cursor: pointer;
+        }
+        details[open] { background: #fff; border-color: #b2bec3; }
+        summary {
+            font-size: 11px; font-weight: 700; padding: 8px 10px; color: var(--blinkit-dark);
+            display: flex; justify-content: space-between; align-items: center;
+            list-style: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '＋'; font-size: 8px; color: #7f8c8d; }
+        details[open] summary::after { content: '－'; }
+        
+        /* Styled Shelf Header with Colored Background */
+        .shelf-container {
+            margin: 6px 4px; background: #fff;
+            border: 1px dashed #cbd5e1; border-radius: 4px; padding: 8px;
+        }
+        .shelf-label { 
+            font-weight: 800; 
+            color: #fff; 
+            font-size: 10px; 
+            margin-bottom: 8px; 
+            text-transform: uppercase;
+            background: #34495e; 
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+        
+        .qr-isolation-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
+            gap: 14px; 
+            padding: 4px 0;
+        }
+        
+        .location-box { 
+            background: var(--bg-light); 
+            border-radius: 5px; 
+            padding: 8px 4px; 
+            text-align: center; 
+            border: 1px solid #e2e8f0;
+        }
+        .code-tag { font-size: 8px; font-weight: 800; display: block; margin-bottom: 5px; color: #334155; }
+        
+        .qr-target-img { 
+            width: 100%; 
+            max-width: 72px; 
+            height: auto; 
+            display: block; 
+            margin: 0 auto; 
+            mix-blend-mode: multiply;
+            background: #fff;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        .bottom-shelf-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid var(--border-gray);
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .section-banner {
+            color: #fff; text-align: center; font-size: 13px; font-weight: 800;
+            padding: 8px; border-radius: 4px; margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .banner-cold { background: #2f3640; border-left: 5px solid var(--blinkit-yellow); }
+
+        /* Footers with elevated margins to completely escape mobile nav bars */
+        .footer-primary {
+            text-align: center; padding: 12px 16px 4px 16px; margin-top: 30px;
+            border-top: 1px solid #dcdde1; font-size: 11px; font-weight: 600; color: #7f8c8d;
+        }
+        .footer-primary span { color: var(--blinkit-dark); font-weight: 800; }
+        
+        .footer-secondary {
+            text-align: center; padding: 4px 16px 45px 16px; font-size: 11px; font-weight: 600; color: #7f8c8d;
+        }
+        .footer-secondary span { color: var(--blinkit-dark); font-weight: 800; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BLINKIT STORE QR LAYOUT MAP</h1>
+        <p>SS, George Town, Prayagraj — Floor Control Terminal</p>
+        <div class="system-status">
+            <div class="pulse-dot"></div>
+            <span>LAYOUT MONITOR LIVE</span>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="⚡ Type or use mic to match instantly..." onkeyup="filterLocations()">
+        <button class="voice-search-btn" id="voiceSearchBtn" onclick="toggleVoiceSearch()" title="Voice Search">🎤</button>
+    </div>
+
+    <!-- INSTANT SPOTLIGHT PORTAL -->
+    <div id="qrSpotlightDashboard">
+        <h3>🎯 Instant QR Match</h3>
+        <div id="spotlightTargetBox"></div>
+    </div>
+
+    <!-- MAIN GRID WRAPPER -->
+    <div class="scrollable-grid-panel">
+        <div class="parallel-floor-container">
+            
+            <!-- FAR LEFT: A01 + A07 Stacked -->
+            <div class="stacked-column-wrapper">
+                <div class="row-column"><div class="row-header">Row A01</div><div id="container-A01" class="racks-accumulator"></div></div>
+                <div class="row-column"><div class="row-header row-header-a07">Row A07</div><div id="container-A07" class="racks-accumulator"></div></div>
+            </div>
+            
+            <!-- CENTER PANEL: A02, A03, A04 + Cold Stuff -->
+            <div class="cold-zone-wrapper">
+                <div class="cold-top-columns">
+                    <div class="row-column"><div class="row-header">Row A02</div><div id="container-A02" class="racks-accumulator"></div></div>
+                    <div class="row-column"><div class="row-header">Row A03</div><div id="container-A03" class="racks-accumulator"></div></div>
+                    <div class="row-column"><div class="row-header">Row A04</div><div id="container-A04" class="racks-accumulator"></div></div>
+                </div>
+
+                <!-- COLD STUFF CORNER -->
+                <div class="bottom-shelf-section">
+                    <div class="section-banner banner-cold">Cold Stuff 🥶</div>
+                    <div style="display: flex; gap: 12px;">
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 6px 0; font-size: 11px; color: var(--blinkit-green);">🥦 Fruits & Vegetables (FV01)</h4>
+                            <div id="container-FV01" class="racks-accumulator"></div>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 6px 0; font-size: 11px; color: #00a8ff;">🧺 Chiller Rack (CR01)</h4>
+                            <div id="container-CR01" class="racks-accumulator"></div>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 6px 0; font-size: 11px; color: #9c88ff;">❄️ Frozen Rack (FR01)</h4>
+                            <div id="container-FR01" class="racks-accumulator"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAR RIGHT: A05 + A06 Stacked -->
+            <div class="stacked-column-wrapper">
+                <div class="row-column"><div class="row-header">Row A05</div><div id="container-A05" class="racks-accumulator"></div></div>
+                <div class="row-column"><div class="row-header">Row A06</div><div id="container-A06" class="racks-accumulator"></div></div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- DOUBLE FOOTER SYSTEM -->
+    <div class="footer-primary">
+        Layout Map Maintained by: <span>Prince Tanwar</span>
+    </div>
+    <div class="footer-secondary">
+        ©: <span>PSTR</span>
+    </div>
+
+    <script>
+        const config = {
+            "A01": {"racks": 32, "shelves": 10},
+            "A02": {"racks": 25, "shelves": 8},
+            "A03": {"racks": 23, "shelves": 8},
+            "A04": {"racks": 21, "shelves": 8},
+            "A05": {"racks": 10, "shelves": 8},
+            "A06": {"racks": 15, "shelves": 8},
+            "A07": {"racks": 8, "shelves": 5},
+            "CR01": {"racks": 14, "shelves": 8},
+            "FR01": {"racks": 12, "shelves": 8},
+            "FV01": {"racks": 11, "shelves": 7}
+        };
+
+        function generateFloorHTML(zoneId) {
+            let zone = config[zoneId];
+            let output = '';
+            
+            for (let r = 1; r <= zone.racks; r++) {
+                let rackNum = String(r).padStart(3, '0');
+                let currentPositions = ["A", "B", "C"];
+                
+                if (zoneId === "CR01") {
+                    currentPositions = ["A", "B", "C", "D"];
+                } else if (zoneId === "A01" && (rackNum === "027" || rackNum === "029" || rackNum === "030")) {
+                    currentPositions = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+                }
+
+                output += `<details data-zone="${zoneId}" data-rack="${rackNum}" onclick="lazyLoadRack(this)">`;
+                output += `<summary>📦 ${zoneId}-${rackNum}</summary>`;
+                
+                for (let s = 1; s <= zone.shelves; s++) {
+                    let shelfNum = String(s).padStart(2, '0');
+                    output += `<div class="shelf-container">`;
+                    output += `<div class="shelf-label">Shelf ${shelfNum}</div>`;
+                    output += `<div class="qr-isolation-grid">`;
+                    
+                    currentPositions.forEach(pos => {
+                        let fullCode = `F0-${zoneId}-${rackNum}-${shelfNum}-${pos}`;
+                        output += `
+                            <div class="location-box" data-code="${fullCode}">
+                                <span class="code-tag">${fullCode}</span>
+                                <img class="qr-target-img" data-src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${fullCode}" alt="QR">
+                            </div>
+                        `;
+                    });
+                    output += `</div></div>`;
+                }
+                output += `</details>`;
+            }
+            return output;
+        }
+
+        function buildStoreLayout() {
+            ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "FV01", "CR01", "FR01"].forEach(zoneId => {
+                document.getElementById(`container-${zoneId}`).innerHTML = generateFloorHTML(zoneId);
+            });
+        }
+
+        function lazyLoadRack(element) {
+            if (!element.hasAttribute('data-loaded')) {
+                element.querySelectorAll('.qr-target-img').forEach(img => {
+                    img.src = img.getAttribute('data-src');
+                });
+                element.setAttribute('data-loaded', 'true');
+            }
+        }
+
+        buildStoreLayout();
+
+        // High-speed searching + instant dashboard spotlighting
+        function filterLocations() {
+            let input = document.getElementById('searchInput').value.toUpperCase().trim();
+            let cards = document.querySelectorAll('.location-box');
+            let spotlightDashboard = document.getElementById('qrSpotlightDashboard');
+            let spotlightTargetBox = document.getElementById('spotlightTargetBox');
+            
+            let explicitMatchCard = null;
+
+            cards.forEach(card => {
+                let code = card.getAttribute('data-code');
+                if (code.includes(input)) {
+                    card.style.display = 'block';
+                    
+                    if (code === input) {
+                        explicitMatchCard = card;
+                    }
+                    
+                    let details = card.closest('details');
+                    if (details && input.length >= 3) {
+                        details.open = true;
+                        lazyLoadRack(details);
+                    }
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // If explicit hit is recorded, render it in the center dashboard view
+            if (explicitMatchCard) {
+                let imgTag = explicitMatchCard.querySelector('.qr-target-img');
+                let liveSrc = imgTag.getAttribute('src') || imgTag.getAttribute('data-src');
+                
+                spotlightTargetBox.innerHTML = `
+                    <span class="code-tag">${input}</span>
+                    <img src="${liveSrc}" style="width:100%; max-width:130px; height:auto; display:block; margin:0 auto; background:#fff; padding:4px; border-radius:4px;" alt="QR Match">
+                `;
+                spotlightDashboard.style.display = 'block';
+            } else {
+                spotlightDashboard.style.display = 'none';
+                spotlightTargetBox.innerHTML = '';
+            }
+            
+            if (input.length === 0) {
+                document.querySelectorAll('details').forEach(d => d.open = false);
+                cards.forEach(c => c.style.display = 'block');
+                spotlightDashboard.style.display = 'none';
+            }
+        }
+
+        // Web Speech API Interface Configuration
+        let recognition;
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                let textResult = event.results[0][0].transcript;
+                // Clean formatting mismatches (e.g., converting "A1" variations into "A01" structures)
+                textResult = textResult.replace(/\s+/g, '').toUpperCase();
+                
+                let inputField = document.getElementById('searchInput');
+                inputField.value = textResult;
+                
+                document.getElementById('voiceSearchBtn').classList.remove('listening');
+                filterLocations();
+            };
+
+            recognition.onerror = function() {
+                document.getElementById('voiceSearchBtn').classList.remove('listening');
+            };
+
+            recognition.onend = function() {
+                document.getElementById('voiceSearchBtn').classList.remove('listening');
+            };
+        }
+
+        function toggleVoiceSearch() {
+            if (!recognition) {
+                alert("Voice search is not
