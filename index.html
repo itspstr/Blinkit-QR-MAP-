@@ -59,7 +59,7 @@
             50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 6px #2ed573; }
             100% { transform: scale(0.85); opacity: 0.5; }
         }
-        /* Responsive search bar container */
+        /* Responsive search bar */
         .search-container { 
             position: sticky; 
             top: 8px; 
@@ -67,161 +67,60 @@
             margin-bottom: 16px;
             width: 100%;
             box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border: 2.5px solid var(--blinkit-green);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            padding-right: 8px;
         }
         #searchInput {
-            flex: 1;
+            width: 100%; 
             padding: 12px 16px; 
             box-sizing: border-box;
-            border: none;
-            border-radius: 8px 0 0 8px;
+            border: 2.5px solid var(--blinkit-green); 
+            border-radius: 8px;
             font-size: 14px; 
             font-weight: 600; 
             outline: none;
-            background-color: transparent;
-        }
-        .search-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #7f8c8d;
-            transition: color 0.2s ease;
-        }
-        .search-action-btn:hover {
-            color: var(--blinkit-dark);
-        }
-        .search-action-btn.active-mic {
-            color: #ff4757;
-            animation: mic-pulse 1s infinite alternate;
-        }
-        @keyframes mic-pulse {
-            from { transform: scale(1); opacity: 1; }
-            to { transform: scale(1.15); opacity: 0.7; }
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
         }
 
-        /* HIGH CONTRAST SPOTLIGHT SCANNING PANEL FOR NEWLAND SCANNERS */
+        /* BIG QR SPOTLIGHT PANEL - HIGH CONTRAST OPTIMIZATION */
         .spotlight-qr-panel {
             display: none;
             background: #fff;
             border: 3.5px solid var(--blinkit-green);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            animation: panelFadeIn 0.25s ease-out;
-        }
-        @keyframes panelFadeIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .spotlight-title {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             color: var(--blinkit-green);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
         }
         .spotlight-code {
             font-size: 18px;
             font-weight: 900;
             color: var(--blinkit-dark);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             background: var(--blinkit-yellow);
             display: inline-block;
-            padding: 3px 12px;
+            padding: 2px 10px;
             border-radius: 4px;
         }
-        .spotlight-img-wrapper {
-            background: #ffffff;
-            padding: 12px;
-            display: inline-block;
-            border-radius: 6px;
-            border: 2px solid #000000;
-            margin-bottom: 10px;
-        }
         .spotlight-img {
-            width: 280px;
+            width: 280px; 
             height: 280px;
+            margin: 10px auto;
             display: block;
             image-rendering: pixelated;
             filter: contrast(1.7) brightness(1.05);
-        }
-        .spotlight-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .meta-pill {
-            background: var(--bg-light);
-            border: 1px solid var(--border-gray);
-            border-radius: 4px;
-            padding: 4px;
-            font-size: 10px;
-            font-weight: 700;
-        }
-        .meta-pill span {
-            display: block;
-            font-size: 8px;
-            color: #7f8c8d;
-            text-transform: uppercase;
-        }
-
-        /* ANALYTICS DASHBOARD BOX */
-        .analytics-toggle {
-            background: var(--blinkit-dark);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .analytics-panel {
-            display: none;
+            border: 3px solid #000;
+            padding: 6px;
             background: #fff;
-            border: 1px solid var(--border-gray);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-            width: 100%;
-            box-sizing: border-box;
         }
-        .analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-        .stat-card {
-            background: var(--bg-light);
-            padding: 8px;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .stat-val { font-size: 14px; font-weight: 800; color: var(--blinkit-green); }
-        .stat-lbl { font-size: 9px; font-weight: 700; color: #7f8c8d; text-transform: uppercase; }
-        .recent-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-        .chip { background: #e6e9ed; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; cursor: pointer; }
 
         /* Layout Grid Panels */
         .scrollable-grid-panel {
@@ -429,45 +328,13 @@
     
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="⚡ Type location code to match instantly..." onkeyup="filterLocations()">
-        <button class="search-action-btn" id="clearSearchBtn" onclick="clearSearchInput()" title="Clear search">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-        <button class="search-action-btn" id="voiceSearchBtn" onclick="toggleVoiceSearch()" title="Voice search">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
-        </button>
     </div>
 
-    <!-- HIGH CONTRAST SPOTLIGHT SCANNING PANEL -->
+    <!-- THE BIG QR SPOTLIGHT PANEL PLACE RIGHT HERE -->
     <div class="spotlight-qr-panel" id="spotlightPanel">
-        <div class="spotlight-title">🎯 Spotlight Scan Target</div>
+        <div class="spotlight-title">🎯 Spotlight Match Target</div>
         <div class="spotlight-code" id="spotlightCode">---</div>
-        <div>
-            <div class="spotlight-img-wrapper">
-                <img class="spotlight-img" id="spotlightImg" src="" alt="Spotlight QR Target">
-            </div>
-        </div>
-        <div class="spotlight-meta-grid">
-            <div class="meta-pill"><span id="metaRowLbl">Row</span><div id="metaRow">-</div></div>
-            <div class="meta-pill"><span id="metaRackLbl">Rack</span><div id="metaRack">-</div></div>
-            <div class="meta-pill"><span id="metaShelfLbl">Shelf</span><div id="metaShelf">-</div></div>
-            <div class="meta-pill"><span id="metaPosLbl">Pos</span><div id="metaPos">-</div></div>
-        </div>
-    </div>
-
-    <!-- ANALYTICS DASHBOARD -->
-    <button class="analytics-toggle" onclick="toggleAnalyticsPanel()">
-        📊 View Search Analytics
-    </button>
-    <div class="analytics-panel" id="analyticsPanel">
-        <div class="analytics-grid">
-            <div class="stat-card"><div class="stat-val" id="statTotal">0</div><div class="stat-lbl">Total Searches</div></div>
-            <div class="stat-card"><div class="stat-val" id="statSuccess">0</div><div class="stat-lbl">Successful</div></div>
-            <div class="stat-card"><div class="stat-val" id="statFailed">0</div><div class="stat-lbl">Failed</div></div>
-            <div class="stat-card"><div class="stat-val" id="statRate">0%</div><div class="stat-lbl">Success Rate</div></div>
-        </div>
-        <div style="font-size: 11px; font-weight: 700; margin-bottom: 4px;">Top Location: <span id="statTopLoc" style="color:var(--blinkit-green)">None</span></div>
-        <div style="font-size: 10px; font-weight: 700; color: #7f8c8d; text-transform: uppercase;">Recent Logs:</div>
-        <div class="recent-chips" id="recentChips"></div>
+        <img class="spotlight-img" id="spotlightImg" src="" alt="High-Contrast QR Target">
     </div>
 
     <!-- MAIN GRID WRAPPER -->
@@ -516,4 +383,133 @@
     </div>
     <!-- DYNAMIC MOVING LINE -->
     <div class="apk-marquee-container">
-        <div class="apk-marquee-text
+        <div class="apk-marquee-text">⚡ No Internet? No problem. Get the QR Map APK for lightning-fast offline use! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ No Internet? No problem. Get the QR Map APK for lightning-fast offline use!</div>
+    </div>
+    <!-- 1-TAP DOWNLOAD INTERFACE -->
+    <div class="download-btn-wrapper">
+        <a href="https://github.com/itspstr/Blinkit-QR-MAP-/releases/download/V.1.0.0/app-release.apk" download="Blinkit-QR-Map.apk" class="instant-download-btn">
+            <svg class="download-icon" viewBox="0 0 24 24">
+                <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+            </svg>
+            DOWNLOAD OFFLINE APK
+        </a>
+    </div>
+    <footer>
+        Layout Map Maintained by: <span>Prince Tanwar</span>
+    </footer>
+    <script>
+        const config = {
+            "A01": {"racks": 32, "shelves": 10},
+            "A02": {"racks": 25, "shelves": 8},
+            "A03": {"racks": 23, "shelves": 8},
+            "A04": {"racks": 21, "shelves": 8},
+            "A05": {"racks": 10, "shelves": 8},
+            "A06": {"racks": 15, "shelves": 8},
+            "A07": {"racks": 8, "shelves": 5},
+            "CR01": {"racks": 14, "shelves": 8},
+            "FR01": {"racks": 12, "shelves": 8},
+            "FV01": {"racks": 11, "shelves": 7}
+        };
+
+        function generateFloorHTML(zoneId) {
+            let zone = config[zoneId];
+            let output = '';
+            
+            for (let r = 1; r <= zone.racks; r++) {
+                let rackNum = String(r).padStart(3, '0');
+                let currentPositions = ["A", "B", "C"];
+                
+                if (zoneId === "CR01") {
+                    currentPositions = ["A", "B", "C", "D"];
+                } else if (zoneId === "A01" && (rackNum === "027" || rackNum === "029" || rackNum === "030")) {
+                    currentPositions = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+                }
+                output += `<details data-zone="${zoneId}" data-rack="${rackNum}" onclick="lazyLoadRack(this)">`;
+                output += `<summary>📦 ${zoneId}-${rackNum}</summary>`;
+                
+                for (let s = 1; s <= zone.shelves; s++) {
+                    let shelfNum = String(s).padStart(2, '0');
+                    output += `<div class="shelf-container">`;
+                    output += `<div class="shelf-label">Shelf ${shelfNum}</div>`;
+                    output += `<div class="qr-isolation-grid">`;
+                    
+                    currentPositions.forEach(pos => {
+                        let fullCode = `F0-${zoneId}-${rackNum}-${shelfNum}-${pos}`;
+                        output += `
+                            <div class="location-box" data-code="${fullCode}">
+                                <span class="code-tag">${fullCode}</span>
+                                <img class="qr-target-img" data-src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${fullCode}" alt="QR">
+                            </div>
+                        `;
+                    });
+                    output += `</div></div>`;
+                }
+                output += `</details>`;
+            }
+            return output;
+        }
+
+        function buildStoreLayout() {
+            ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "FV01", "CR01", "FR01"].forEach(zoneId => {
+                let container = document.getElementById(`container-${zoneId}`);
+                if (container) {
+                    container.innerHTML = generateFloorHTML(zoneId);
+                }
+            });
+        }
+
+        function lazyLoadRack(element) {
+            if (!element.hasAttribute('data-loaded')) {
+                element.querySelectorAll('.qr-target-img').forEach(img => {
+                    img.src = img.getAttribute('data-src');
+                });
+                element.setAttribute('data-loaded', 'true');
+            }
+        }
+
+        buildStoreLayout();
+
+        function filterLocations() {
+            let input = document.getElementById('searchInput').value.toUpperCase().trim();
+            
+            // Auto format inputs to match store configurations smoothly
+            let processedInput = input;
+            if (input.length > 0 && !input.startsWith("F0-") && !input.startsWith("F")) {
+                if (/^[A-Z]/.test(input)) {
+                    processedInput = "F0-" + input;
+                }
+            }
+
+            let cards = document.querySelectorAll('.location-box');
+            let spotlightPanel = document.getElementById('spotlightPanel');
+            let spotlightCode = document.getElementById('spotlightCode');
+            let spotlightImg = document.getElementById('spotlightImg');
+            let exactMatchFound = false;
+            
+            cards.forEach(card => {
+                let code = card.getAttribute('data-code');
+                if (code.includes(processedInput) || code.includes(input)) {
+                    card.style.display = 'block';
+                    let details = card.closest('details');
+                    if (details && input.length >= 3) {
+                        details.open = true;
+                        lazyLoadRack(details);
+                    }
+                    if (code === processedInput || code === input) {
+                        exactMatchFound = true;
+                        spotlightCode.innerText = code;
+                        spotlightImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${code}`;
+                    }
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (exactMatchFound) {
+                spotlightPanel.style.display = 'block';
+            } else {
+                spotlightPanel.style.display = 'none';
+            }
+            
+            if (input.length === 0) {
+               
