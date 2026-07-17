@@ -83,7 +83,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.06);
         }
 
-        /* BIG QR SPOTLIGHT PANEL */
+        /* NEW ADDITION: BIG QR SPOTLIGHT PANEL CSS */
         .spotlight-qr-panel {
             display: none;
             background: #fff;
@@ -126,47 +126,6 @@
             image-rendering: pixelated;
             filter: contrast(1.7) brightness(1.05);
         }
-
-        /* NEW ADDITION: DASHBOARD PANEL SYSTEM CSS */
-        .analytics-toggle {
-            background: var(--blinkit-dark);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .analytics-panel {
-            display: none;
-            background: #fff;
-            border: 1px solid var(--border-gray);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-        }
-        .analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-        .stat-card {
-            background: var(--bg-light);
-            padding: 8px;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .stat-val { font-size: 14px; font-weight: 800; color: var(--blinkit-green); }
-        .stat-lbl { font-size: 9px; font-weight: 700; color: #7f8c8d; text-transform: uppercase; }
-        .recent-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-        .chip { background: #e6e9ed; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; cursor: pointer; }
 
         /* Layout Grid Panels - Fixed for broad screens */
         .scrollable-grid-panel {
@@ -331,7 +290,7 @@
         <input type="text" id="searchInput" placeholder="⚡ Type location code to match instantly..." onkeyup="filterLocations()">
     </div>
 
-    <!-- HIGH CONTRAST SPOTLIGHT SCANNING PANEL -->
+    <!-- NEW ADDITION: HIGH CONTRAST SPOTLIGHT SCANNING PANEL -->
     <div class="spotlight-qr-panel" id="spotlightPanel">
         <div class="spotlight-title">🎯 Spotlight Match Target</div>
         <div class="spotlight-code" id="spotlightCode">---</div>
@@ -340,22 +299,6 @@
                 <img class="spotlight-img" id="spotlightImg" src="" alt="Spotlight QR Target">
             </div>
         </div>
-    </div>
-
-    <!-- NEW ADDITION: ANALYTICS INTERFACE DASHBOARD ELEMENTS -->
-    <button class="analytics-toggle" onclick="toggleAnalyticsPanel()">
-        📊 View Search Analytics
-    </button>
-    <div class="analytics-panel" id="analyticsPanel">
-        <div class="analytics-grid">
-            <div class="stat-card"><div class="stat-val" id="statTotal">0</div><div class="stat-lbl">Total Searches</div></div>
-            <div class="stat-card"><div class="stat-val" id="statSuccess">0</div><div class="stat-lbl">Successful</div></div>
-            <div class="stat-card"><div class="stat-val" id="statFailed">0</div><div class="stat-lbl">Failed</div></div>
-            <div class="stat-card"><div class="stat-val" id="statRate">0%</div><div class="stat-lbl">Success Rate</div></div>
-        </div>
-        <div style="font-size: 11px; font-weight: 700; margin-bottom: 4px;">Top Location: <span id="statTopLoc" style="color:var(--blinkit-green)">None</span></div>
-        <div style="font-size: 10px; font-weight: 700; color: #7f8c8d; text-transform: uppercase;">Recent Logs:</div>
-        <div class="recent-chips" id="recentChips"></div>
     </div>
 
     <!-- MAIN GRID WRAPPER -->
@@ -423,11 +366,6 @@
             "FV01": {"racks": 11, "shelves": 7}
         };
 
-        // Protected tracking object metrics
-        let lastLoggedQuery = "";
-        let logTimeout = null;
-        let stats = { total: 0, success: 0, failed: 0, history: {}, recent: [] };
-
         function generateFloorHTML(zoneId) {
             let zone = config[zoneId];
             let output = '';
@@ -471,7 +409,6 @@
             ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "FV01", "CR01", "FR01"].forEach(zoneId => {
                 document.getElementById(`container-${zoneId}`).innerHTML = generateFloorHTML(zoneId);
             });
-            initAnalyticsStorage(); // Safely initiate storage mechanics
         }
 
         function lazyLoadRack(element) {
@@ -485,6 +422,7 @@
 
         buildStoreLayout();
 
+        // NEW ADDITION: UPDATED FILTER MECHANICS FOR SPOTLIGHT DISPLAY
         function filterLocations() {
             let input = document.getElementById('searchInput').value.toUpperCase().trim();
             let cards = document.querySelectorAll('.location-box');
@@ -516,4 +454,22 @@
                         spotlightImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${code}`;
                     }
                 } else {
-                
+                    card.style.display = 'none';
+                }
+            });
+
+            if (exactMatchFound) {
+                spotlightPanel.style.display = 'block';
+            } else {
+                spotlightPanel.style.display = 'none';
+            }
+            
+            if (input.length === 0) {
+                document.querySelectorAll('details').forEach(d => d.open = false);
+                cards.forEach(c => c.style.display = 'block');
+                spotlightPanel.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
