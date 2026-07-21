@@ -83,7 +83,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.06);
         }
 
-        /* BIG QR SPOTLIGHT PANEL CSS */
+        /* NEW ADDITION: BIG QR SPOTLIGHT PANEL CSS */
         .spotlight-qr-panel {
             display: none;
             background: #fff;
@@ -268,64 +268,6 @@
         }
         .banner-cold { background: #2f3640; border-left: 5px solid var(--blinkit-yellow); }
 
-        /* MOVING MARQUEE BANNER STYLING */
-        .apk-marquee-container {
-            width: 100%;
-            background-color: var(--blinkit-dark);
-            color: #fff;
-            overflow: hidden;
-            white-space: nowrap;
-            box-sizing: border-box;
-            padding: 8px 0;
-            margin-top: 25px;
-            border-top: 2px solid var(--blinkit-yellow);
-            border-bottom: 2px solid var(--blinkit-yellow);
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .apk-marquee-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee-scroll 15s linear infinite;
-        }
-        @keyframes marquee-scroll {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
-
-        /* DOWNLOAD BUTTON STYLING */
-        .download-btn-wrapper {
-            text-align: center;
-            margin: 14px 0 5px 0;
-            width: 100%;
-        }
-        .instant-download-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background-color: var(--blinkit-green);
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 24px;
-            font-size: 14px;
-            font-weight: 800;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(12, 131, 31, 0.25);
-            transition: transform 0.1s ease, background-color 0.2s ease;
-            box-sizing: border-box;
-        }
-        .instant-download-btn:active {
-            transform: scale(0.96);
-            background-color: #086116;
-        }
-        .download-icon {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
         footer {
             text-align: center; padding: 16px; margin-top: 15px;
             border-top: 1px solid #dcdde1; font-size: 11px; font-weight: 600; color: #7f8c8d;
@@ -348,7 +290,7 @@
         <input type="text" id="searchInput" placeholder="⚡ Type location code to match instantly..." onkeyup="filterLocations()">
     </div>
 
-    <!-- HIGH CONTRAST SPOTLIGHT SCANNING PANEL -->
+    <!-- NEW ADDITION: HIGH CONTRAST SPOTLIGHT SCANNING PANEL -->
     <div class="spotlight-qr-panel" id="spotlightPanel">
         <div class="spotlight-title">🎯 Spotlight Match Target</div>
         <div class="spotlight-code" id="spotlightCode">---</div>
@@ -404,21 +346,6 @@
             </div>
             
         </div>
-    </div>
-
-    <!-- DYNAMIC MOVING LINE -->
-    <div class="apk-marquee-container">
-        <div class="apk-marquee-text">⚡ No Internet? No problem. Get the QR Map APK for lightning-fast offline use! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ No Internet? No problem. Get the QR Map APK for lightning-fast offline use!</div>
-    </div>
-
-    <!-- 1-TAP DOWNLOAD INTERFACE -->
-    <div class="download-btn-wrapper">
-        <a href="https://github.com/itspstr/Blinkit-QR-MAP-/releases/download/V.1.0.0/app-release.apk" download="Blinkit-QR-Map.apk" class="instant-download-btn">
-            <svg class="download-icon" viewBox="0 0 24 24">
-                <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
-            </svg>
-            DOWNLOAD OFFLINE APK
-        </a>
     </div>
 
     <footer>
@@ -495,6 +422,7 @@
 
         buildStoreLayout();
 
+        // NEW ADDITION: UPDATED FILTER MECHANICS FOR SPOTLIGHT DISPLAY
         function filterLocations() {
             let input = document.getElementById('searchInput').value.toUpperCase().trim();
             let cards = document.querySelectorAll('.location-box');
@@ -536,4 +464,12 @@
                 spotlightPanel.style.display = 'none';
             }
             
-  
+            if (input.length === 0) {
+                document.querySelectorAll('details').forEach(d => d.open = false);
+                cards.forEach(c => c.style.display = 'block');
+                spotlightPanel.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
