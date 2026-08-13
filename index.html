@@ -623,4 +623,345 @@
                         </div>
                         <div style="flex: 1;" id="col-CR01" class="cold-unit-col">
                             <h4 style="margin: 0 0 6px 0; font-size: 10px; font-weight: 900; color: #0284c7;">🧺 CR01</h4>
-                            <div id="container-CR01" class
+                            <div id="container-CR01" class="racks-accumulator"></div>
+                        </div>
+                        <div style="flex: 1;" id="col-FR01" class="cold-unit-col">
+                            <h4 style="margin: 0 0 6px 0; font-size: 10px; font-weight: 900; color: #7c3aed;">❄️ FR01</h4>
+                            <div id="container-FR01" class="racks-accumulator"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stacked-column-wrapper" id="stackedColRight">
+                <div class="row-column" id="col-A05">
+                    <div class="row-header">Row A05</div>
+                    <div id="container-A05" class="racks-accumulator"></div>
+                </div>
+                <div class="row-column" id="col-A06">
+                    <div class="row-header row-header-dark">Row A06</div>
+                    <div id="container-A06" class="racks-accumulator"></div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="bottom-control-panel">
+        <a class="download-apk-btn" href="https://github.com/itspstr/Blinkit-QR-MAP-/releases/download/V.1.0.0/app-release.apk" target="_blank">
+            📦 DOWNLOAD OFFLINE APK PACKAGE
+        </a>
+
+        <div class="analytics-footer-panel">
+            <div class="analytics-toggle-row">
+                <div class="analytics-title">📊 Analytics Hub</div>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="analyticsToggle" value="off" checked onclick="toggleAnalytics(false)"> Off
+                    </label>
+                    <label>
+                        <input type="radio" name="analyticsToggle" value="on" onclick="toggleAnalytics(true)"> On
+                    </label>
+                </div>
+            </div>
+            <div class="analytics-dashboard-content" id="analyticsContent">
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Zones</div>
+                        <div class="stat-value">10</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Racks</div>
+                        <div class="stat-value">151</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Loaded</div>
+                        <div class="stat-value" id="statLoadedRacks">151</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Version</div>
+                        <div class="stat-value">v2.2</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Layout Map Maintained by: <span>Prince Tanwar</span>
+        <span class="footer-copyright">©PSTR</span>
+    </footer>
+
+    <script>
+        const config = {
+            "A01": {"racks": 32, "shelves": 10},
+            "A02": {"racks": 25, "shelves": 8},
+            "A03": {"racks": 23, "shelves": 8},
+            "A04": {"racks": 21, "shelves": 8},
+            "A05": {"racks": 10, "shelves": 8},
+            "A06": {"racks": 15, "shelves": 8},
+            "A07": {"racks": 8, "shelves": 5},
+            "CR01": {"racks": 14, "shelves": 8},
+            "FR01": {"racks": 12, "shelves": 8},
+            "FV01": {"racks": 11, "shelves": 7}
+        };
+
+        function buildStoreLayout() {
+            Object.keys(config).forEach(zoneId => {
+                let container = document.getElementById(`container-${zoneId}`);
+                if (!container) return;
+
+                let zone = config[zoneId];
+                let fragment = document.createDocumentFragment();
+
+                for (let r = 1; r <= zone.racks; r++) {
+                    let rackNum = String(r).padStart(3, '0');
+                    let currentPositions = ["A", "B", "C"];
+                    
+                    if (zoneId === "CR01") {
+                        currentPositions = ["A", "B", "C", "D"];
+                    } else if (zoneId === "A01" && (rackNum === "027" || rackNum === "029" || rackNum === "030")) {
+                        currentPositions = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+                    }
+
+                    let details = document.createElement('details');
+                    details.setAttribute('data-zone', zoneId);
+                    details.setAttribute('data-rack', rackNum);
+
+                    let summary = document.createElement('summary');
+                    summary.innerHTML = `
+                        <div class="summary-left"><span>📦 ${zoneId}-${rackNum}</span></div>
+                        <span class="summary-right-indicator">▼</span>
+                    `;
+                    details.appendChild(summary);
+
+                    for (let s = 1; s <= zone.shelves; s++) {
+                        let shelfNum = String(s).padStart(2, '0');
+                        let shelfContainer = document.createElement('div');
+                        shelfContainer.className = 'shelf-container';
+                        
+                        let shelfLabel = document.createElement('div');
+                        shelfLabel.className = 'shelf-label';
+                        shelfLabel.innerText = `Shelf ${shelfNum}`;
+                        shelfContainer.appendChild(shelfLabel);
+
+                        let qrGrid = document.createElement('div');
+                        qrGrid.className = 'qr-isolation-grid';
+
+                        currentPositions.forEach(pos => {
+                            let fullCode = `F0-${zoneId}-${rackNum}-${shelfNum}-${pos}`;
+                            let locationBox = document.createElement('div');
+                            locationBox.className = 'location-box';
+                            locationBox.setAttribute('data-code', fullCode);
+                            
+                            locationBox.innerHTML = `
+                                <span class="code-tag">${fullCode}</span>
+                                <img class="qr-target-img" src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${fullCode}" alt="QR" loading="lazy">
+                                <button class="item-view-btn" type="button">🔍 View</button>
+                            `;
+
+                            locationBox.querySelector('.item-view-btn').addEventListener('click', (e) => {
+                                viewBigQR(e, fullCode);
+                            });
+
+                            qrGrid.appendChild(locationBox);
+                        });
+
+                        shelfContainer.appendChild(qrGrid);
+                        details.appendChild(shelfContainer);
+                    }
+
+                    fragment.appendChild(details);
+                }
+
+                container.appendChild(fragment);
+            });
+        }
+
+        // Run instantly when script loads
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", buildStoreLayout);
+        } else {
+            buildStoreLayout();
+        }
+
+        function viewBigQR(event, code) {
+            event.stopPropagation();
+            let spotlightPanel = document.getElementById('spotlightPanel');
+            let spotlightCode = document.getElementById('spotlightCode');
+            let spotlightImg = document.getElementById('spotlightImg');
+            
+            spotlightCode.innerText = code;
+            spotlightImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${code}`;
+            spotlightPanel.style.display = 'block';
+            
+            spotlightPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function clipTargetZone(targetZone) {
+            document.querySelectorAll('.chip-btn').forEach(btn => btn.classList.remove('active'));
+            if(event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+
+            document.getElementById('stackedColLeft').style.display = 'flex';
+            document.getElementById('stackedColRight').style.display = 'flex';
+            document.getElementById('coldZoneWrapper').style.display = 'flex';
+            document.getElementById('coldTopCols').style.display = 'flex';
+            document.getElementById('coldZoneWrapper').style.width = '710px';
+            document.getElementById('coldStorageSection').style.display = 'block';
+
+            const allZones = ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "FV01", "CR01", "FR01"];
+
+            allZones.forEach(z => {
+                let el = document.getElementById(`col-${z}`);
+                if (el) {
+                    el.style.display = 'flex';
+                    if (el.classList.contains('row-column')) {
+                        el.style.width = '230px';
+                    }
+                }
+            });
+
+            if (['FV01', 'CR01', 'FR01'].includes(targetZone)) {
+                document.getElementById('stackedColLeft').style.display = 'none';
+                document.getElementById('stackedColRight').style.display = 'none';
+                document.getElementById('coldTopCols').style.display = 'none';
+                document.getElementById('coldZoneWrapper').style.width = '100%';
+                ['FV01', 'CR01', 'FR01'].forEach(c => {
+                    let unitEl = document.getElementById(`col-${c}`);
+                    if (unitEl) {
+                        unitEl.style.display = (c === targetZone) ? 'block' : 'none';
+                    }
+                });
+            } else if (['A05', 'A06'].includes(targetZone)) {
+                document.getElementById('stackedColLeft').style.display = 'none';
+                document.getElementById('coldZoneWrapper').style.display = 'none';
+                document.getElementById('stackedColRight').style.display = 'flex';
+                ['A05', 'A06'].forEach(z => {
+                    let rEl = document.getElementById(`col-${z}`);
+                    if (rEl) rEl.style.display = (z === targetZone) ? 'flex' : 'none';
+                });
+                if(document.getElementById('col-' + targetZone)) {
+                    document.getElementById('col-' + targetZone).style.width = '100%';
+                }
+            } else if (['A01', 'A07'].includes(targetZone)) {
+                document.getElementById('stackedColRight').style.display = 'none';
+                document.getElementById('coldZoneWrapper').style.display = 'none';
+                document.getElementById('stackedColLeft').style.display = 'flex';
+                ['A01', 'A07'].forEach(z => {
+                    let rEl = document.getElementById(`col-${z}`);
+                    if (rEl) rEl.style.display = (z === targetZone) ? 'flex' : 'none';
+                });
+                if(document.getElementById('col-' + targetZone)) {
+                    document.getElementById('col-' + targetZone).style.width = '100%';
+                }
+            } else if (['A02', 'A03', 'A04'].includes(targetZone)) {
+                document.getElementById('stackedColLeft').style.display = 'none';
+                document.getElementById('stackedColRight').style.display = 'none';
+                document.getElementById('coldStorageSection').style.display = 'none';
+                document.getElementById('coldTopCols').style.display = 'flex';
+                document.getElementById('coldZoneWrapper').style.width = '100%';
+                ['A02', 'A03', 'A04'].forEach(z => {
+                    let rEl = document.getElementById(`col-${z}`);
+                    if (rEl) {
+                        rEl.style.display = (z === targetZone) ? 'flex' : 'none';
+                        if (z === targetZone) rEl.style.width = '100%';
+                    }
+                });
+            }
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('.chip-btn').forEach(btn => btn.classList.remove('active'));
+            let searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+
+            document.getElementById('stackedColLeft').style.display = 'flex';
+            document.getElementById('stackedColRight').style.display = 'flex';
+            document.getElementById('coldZoneWrapper').style.display = 'flex';
+            document.getElementById('coldZoneWrapper').style.width = '710px';
+            document.getElementById('coldTopCols').style.display = 'flex';
+            document.getElementById('coldStorageSection').style.display = 'block';
+
+            const allZones = ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "FV01", "CR01", "FR01"];
+            allZones.forEach(z => {
+                let el = document.getElementById(`col-${z}`);
+                if (el) {
+                    el.style.display = 'flex';
+                    if (el.classList.contains('row-column')) {
+                        el.style.width = '230px';
+                    }
+                }
+            });
+
+            document.getElementById('spotlightPanel').style.display = 'none';
+            document.querySelectorAll('details').forEach(d => d.open = false);
+        }
+
+        function toggleAnalytics(show) {
+            let content = document.getElementById('analyticsContent');
+            if (show) {
+                content.classList.add('active');
+            } else {
+                content.classList.remove('active');
+            }
+        }
+
+        function filterLocations() {
+            let input = document.getElementById('searchInput').value.toUpperCase().trim();
+            let cards = document.querySelectorAll('.location-box');
+            
+            let processedInput = input;
+            if (input.length > 0 && !input.startsWith("F0-") && !input.startsWith("F")) {
+                if (/^[A-Z]/.test(input)) {
+                    processedInput = "F0-" + input;
+                }
+            }
+
+            let spotlightPanel = document.getElementById('spotlightPanel');
+            let spotlightCode = document.getElementById('spotlightCode');
+            let spotlightImg = document.getElementById('spotlightImg');
+            let exactMatchFound = false;
+
+            cards.forEach(card => {
+                let code = card.getAttribute('data-code');
+                if (code.includes(processedInput) || code.includes(input)) {
+                    card.style.display = 'block';
+                    let details = card.closest('details');
+                    if (details && input.length >= 3) {
+                        details.open = true;
+                    }
+                    if (code === processedInput || code === input) {
+                        exactMatchFound = true;
+                        spotlightCode.innerText = code;
+                        spotlightImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${code}`;
+                    }
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (exactMatchFound) {
+                spotlightPanel.style.display = 'block';
+            } else {
+                spotlightPanel.style.display = 'none';
+            }
+            
+            if (input.length === 0) {
+                document.querySelectorAll('details').forEach(d => d.open = false);
+                cards.forEach(c => c.style.display = 'block');
+                spotlightPanel.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
