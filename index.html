@@ -25,8 +25,8 @@
             background-color: var(--bg-light);
             padding: 10px;
             color: var(--text-primary);
-            width: 100%;
-            overflow-x: hidden;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         header {
@@ -88,28 +88,7 @@
         .spotlight-code-badge { display: inline-block; background: var(--blinkit-yellow); color: #111; font-size: 13px; font-weight: 900; padding: 4px 10px; border-radius: 6px; margin-bottom: 8px; }
         .spotlight-qr-target { display: inline-block; padding: 6px; background: #FFF; border: 2px solid var(--border-gray); border-radius: 6px; }
 
-        .scrollable-grid-panel { 
-            width: 100%; 
-            overflow-x: auto; 
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch; 
-            margin-bottom: 14px; 
-            border: 1px solid var(--border-gray); 
-            border-radius: 12px; 
-            background: #EDF2F7;
-            padding: 10px 8px;
-        }
-        .parallel-floor-container { 
-            display: flex; 
-            flex-direction: row; 
-            align-items: flex-start; 
-            gap: 10px; 
-            width: 1750px; 
-        }
-        
-        .stacked-column-wrapper { display: flex; flex-direction: column; gap: 8px; width: 250px; flex-shrink: 0; }
-        .cold-zone-wrapper { display: flex; flex-direction: column; gap: 8px; width: 1150px; flex-shrink: 0; }
-        .cold-top-columns { display: flex; gap: 8px; width: 100%; }
+        .rows-wrapper { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
 
         .row-column {
             width: 100%; background: var(--card-bg); border-radius: 10px;
@@ -117,41 +96,37 @@
         }
         .row-header {
             font-size: 11px; font-weight: 900; color: #FFF; background: var(--blinkit-green);
-            padding: 9px 10px; display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;
         }
         .row-header-dark { background: var(--blinkit-dark); }
-        .row-badge { font-size: 8px; background: rgba(255,255,255,0.2); padding: 2px 5px; border-radius: 4px; font-weight: 800; }
+        .row-badge { font-size: 8px; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-weight: 800; }
 
-        .racks-accumulator { padding: 6px; min-height: 40px; }
+        .racks-accumulator { padding: 8px; }
 
         details.rack-box {
-            background: #F8FAFC; border: 1.5px solid var(--border-gray); border-radius: 6px;
-            margin-bottom: 5px; overflow: hidden;
+            background: #F8FAFC; border: 1.5px solid var(--border-gray); border-radius: 8px;
+            margin-bottom: 6px; overflow: hidden;
         }
         details.rack-box[open] { border-color: var(--blinkit-green); background: #FFF; }
         summary.rack-summary {
-            padding: 9px; font-size: 10px; font-weight: 800; color: var(--text-primary);
+            padding: 10px 12px; font-size: 11px; font-weight: 800; color: var(--text-primary);
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            background: #F1F5F9; border-radius: 5px; user-select: none;
+            background: #F1F5F9; border-radius: 6px; user-select: none;
         }
         summary.rack-summary::-webkit-details-marker { display: none; }
 
-        .rack-body { padding: 4px 0; background: #FFF; }
-        .shelf-block { padding: 6px; border-top: 1px solid var(--border-gray); }
-        .shelf-title { font-size: 8px; font-weight: 900; background: #334155; color: #FFF; padding: 2px 5px; border-radius: 3px; margin-bottom: 5px; display: inline-block; }
+        .rack-body { padding: 8px; background: #FFF; }
+        .shelf-block { padding: 8px; border-top: 1px solid var(--border-gray); margin-top: 6px; }
+        .shelf-block:first-child { border-top: none; margin-top: 0; }
+        .shelf-title { font-size: 9px; font-weight: 900; background: #334155; color: #FFF; padding: 3px 6px; border-radius: 4px; margin-bottom: 8px; display: inline-block; }
 
-        .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 5px; }
-        .qr-item { background: #F8FAFC; border: 1px solid var(--border-gray); border-radius: 5px; padding: 4px 2px; text-align: center; }
-        .qr-item span { display: block; font-size: 7px; font-weight: 800; color: var(--text-muted); margin-bottom: 2px; }
-        .qr-box-target { background: #FFF; border-radius: 3px; }
+        .qr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .qr-item { background: #F8FAFC; border: 1px solid var(--border-gray); border-radius: 6px; padding: 6px 4px; text-align: center; }
+        .qr-item span { display: block; font-size: 8px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; word-break: break-all; }
+        .qr-box-target { background: #FFF; border-radius: 4px; display: flex; justify-content: center; align-items: center; }
+        .qr-box-target img { display: block; margin: 0 auto; width: 100% !important; height: auto !important; max-width: 90px; }
 
         .qr-item.spotlight { border: 2px solid #EF4444 !important; background: #FEF08A !important; transform: scale(1.02); }
-
-        .bottom-shelf-section { 
-            background: var(--card-bg); border-radius: 10px; padding: 10px; 
-            border: 1px solid var(--border-gray); width: 100%;
-        }
-        .section-banner { background: var(--blinkit-dark); color: #FFF; text-align: center; font-size: 10px; font-weight: 900; padding: 7px; border-radius: 5px; margin-bottom: 8px; }
 
         .bottom-controls-section { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
         .analytics-toggle-bar { display: flex; justify-content: center; gap: 14px; padding: 8px; background: var(--card-bg); border: 1px solid var(--border-gray); border-radius: 8px; }
@@ -169,9 +144,9 @@
         }
         .download-app-btn { font-size: 9px; font-weight: 900; color: #111; background: var(--blinkit-yellow); padding: 7px 10px; border-radius: 5px; text-decoration: none; }
 
-        footer { text-align: center; padding: 8px; font-size: 9px; color: var(--text-muted); }
+        footer { text-align: center; padding: 12px; font-size: 9px; color: var(--text-muted); }
         footer span { color: var(--text-primary); font-weight: 900; }
-        footer small { display: block; font-size: 8px; color: var(--blinkit-green); font-weight: 800; }
+        footer small { display: block; font-size: 8px; color: var(--blinkit-green); font-weight: 800; margin-top: 2px; }
     </style>
 </head>
 <body>
@@ -193,6 +168,7 @@
             <button class="chip-btn" onclick="filterByZone('A04', this)">⚡ A04</button>
             <button class="chip-btn" onclick="filterByZone('A05', this)">⚡ A05</button>
             <button class="chip-btn" onclick="filterByZone('A06', this)">⚡ A06</button>
+            <button class="chip-btn" onclick="filterByZone('A07', this)">⚡ A07</button>
             <button class="chip-btn" onclick="filterByZone('FV01', this)">🥦 FV01</button>
             <button class="chip-btn" onclick="filterByZone('CR01', this)">🧺 CR01</button>
             <button class="chip-btn" onclick="filterByZone('FR01', this)">❄️ FR01</button>
@@ -207,62 +183,56 @@
         </div>
     </div>
 
-    <!-- Full Original Parallel Floor Layout with All Rows Restored -->
-    <div class="scrollable-grid-panel">
-        <div class="parallel-floor-container">
-            <div class="cold-zone-wrapper">
-                <div class="cold-top-columns">
-                    <div class="row-column" id="card-A01">
-                        <div class="row-header">Row A01 <span class="row-badge">acks</span></div>
-                        <div id="container-A01" class="racks-accumulator"></div>
-                    </div>
-                    <div class="row-column" id="card-A02">
-                        <div class="row-header">Row A02 <span class="row-badge">acks</span></div>
-                        <div id="container-A02" class="racks-accumulator"></div>
-                    </div>
-                    <div class="row-column" id="card-A03">
-                        <div class="row-header">Row A03 <span class="row-badge">acks</span></div>
-                        <div id="container-A03" class="racks-accumulator"></div>
-                    </div>
-                    <div class="row-column" id="card-A04">
-                        <div class="row-header">Row A04 <span class="row-badge">21 Racks</span></div>
-                        <div id="container-A04" class="racks-accumulator"></div>
-                    </div>
-                </div>
+    <!-- Restored Clean Vertical Stacked Layout with All Rows Intact -->
+    <div class="rows-wrapper">
+        <div class="row-column" id="card-A01">
+            <div class="row-header">Row A01 <span class="row-badge">10 Racks</span></div>
+            <div id="container-A01" class="racks-accumulator"></div>
+        </div>
 
-                <div class="bottom-shelf-section" id="cold-zone-section">
-                    <div class="section-banner">🥶 Cold Stuff Zone</div>
-                    <div style="display: flex; gap: 6px;">
-                        <div style="flex: 1;" id="sub-FV01">
-                            <h4 style="font-size: 9px; color: var(--blinkit-green); margin-bottom: 3px; font-weight: 800;">🥦 FV01</h4>
-                            <div id="container-FV01" class="racks-accumulator"></div>
-                        </div>
-                        <div style="flex: 1;" id="sub-CR01">
-                            <h4 style="font-size: 9px; color: #0284C7; margin-bottom: 3px; font-weight: 800;">🧺 CR01</h4>
-                            <div id="container-CR01" class="racks-accumulator"></div>
-                        </div>
-                        <div style="flex: 1;" id="sub-FR01">
-                            <h4 style="font-size: 9px; color: #7C3AED; margin-bottom: 3px; font-weight: 800;">❄️ FR01</h4>
-                            <div id="container-FR01" class="racks-accumulator"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row-column" id="card-A02">
+            <div class="row-header">Row A02 <span class="row-badge">10 Racks</span></div>
+            <div id="container-A02" class="racks-accumulator"></div>
+        </div>
 
-            <div class="stacked-column-wrapper">
-                <div class="row-column" id="card-A05">
-                    <div class="row-header">Row A05 <span class="row-badge">10 Racks</span></div>
-                    <div id="container-A05" class="racks-accumulator"></div>
-                </div>
-                <div class="row-column" id="card-A06">
-                    <div class="row-header row-header-dark">Row A06 <span class="row-badge">15 Racks</span></div>
-                    <div id="container-A06" class="racks-accumulator"></div>
-                </div>
-                <div class="row-column" id="card-A07">
-                    <div class="row-header">Row A07 <span class="row-badge">Racks</span></div>
-                    <div id="container-A07" class="racks-accumulator"></div>
-                </div>
-            </div>
+        <div class="row-column" id="card-A03">
+            <div class="row-header">Row A03 <span class="row-badge">10 Racks</span></div>
+            <div id="container-A03" class="racks-accumulator"></div>
+        </div>
+
+        <div class="row-column" id="card-A04">
+            <div class="row-header">Row A04 <span class="row-badge">21 Racks</span></div>
+            <div id="container-A04" class="racks-accumulator"></div>
+        </div>
+
+        <div class="row-column" id="card-A05">
+            <div class="row-header">Row A05 <span class="row-badge">10 Racks</span></div>
+            <div id="container-A05" class="racks-accumulator"></div>
+        </div>
+
+        <div class="row-column" id="card-A06">
+            <div class="row-header row-header-dark">Row A06 <span class="row-badge">15 Racks</span></div>
+            <div id="container-A06" class="racks-accumulator"></div>
+        </div>
+
+        <div class="row-column" id="card-A07">
+            <div class="row-header">Row A07 <span class="row-badge">10 Racks</span></div>
+            <div id="container-A07" class="racks-accumulator"></div>
+        </div>
+
+        <div class="row-column" id="card-FV01">
+            <div class="row-header" style="background: var(--blinkit-green);">🥦 FV01 (Cold Zone) <span class="row-badge">11 Racks</span></div>
+            <div id="container-FV01" class="racks-accumulator"></div>
+        </div>
+
+        <div class="row-column" id="card-CR01">
+            <div class="row-header" style="background: #0284C7;">🧺 CR01 (Cold Zone) <span class="row-badge">14 Racks</span></div>
+            <div id="container-CR01" class="racks-accumulator"></div>
+        </div>
+
+        <div class="row-column" id="card-FR01">
+            <div class="row-header" style="background: #7C3AED;">❄️ FR01 (Cold Zone) <span class="row-badge">12 Racks</span></div>
+            <div id="container-FR01" class="racks-accumulator"></div>
         </div>
     </div>
 
@@ -345,7 +315,7 @@
                     qrBoxesHTML += `
                         <div class="qr-item" data-code="${fullCode}">
                             <span>${fullCode}</span>
-                            <div class="qr-box-target" data-code="${fullCode}" style="width:60px; height:60px; margin:0 auto;"></div>
+                            <div class="qr-box-target" data-code="${fullCode}"></div>
                         </div>
                     `;
                 });
@@ -365,7 +335,7 @@
                 qrBoxes.forEach(box => {
                     const code = box.getAttribute('data-code');
                     box.innerHTML = '';
-                    new QRCode(box, { text: code, width: 60, height: 60, correctLevel: QRCode.CorrectLevel.L });
+                    new QRCode(box, { text: code, width: 80, height: 80, correctLevel: QRCode.CorrectLevel.L });
                 });
             }
         }
@@ -384,44 +354,29 @@
             document.getElementById('spotlightContainer').style.display = 'none';
             document.querySelectorAll('.qr-item').forEach(el => el.classList.remove('spotlight'));
 
-            document.querySelectorAll('.rack-box').forEach(rack => {
-                if (rack.getAttribute('data-rackcode').startsWith(zoneId)) {
-                    rack.style.display = 'block';
-                    rack.open = false;
+            document.querySelectorAll('.row-column').forEach(card => {
+                if (card.id === `card-${zoneId}`) {
+                    card.style.display = 'block';
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
-                    rack.style.display = 'none';
+                    card.style.display = 'none';
                 }
             });
             updateAnalyticsMetrics(true);
-
-            let targetElem = document.getElementById(`card-${zoneId}`);
-            if (!targetElem && ['FV01', 'CR01', 'FR01'].includes(zoneId)) {
-                targetElem = document.getElementById(`sub-${zoneId}`);
-            }
-            if (targetElem) {
-                const panel = document.querySelector('.scrollable-grid-panel');
-                if (panel) {
-                    const panelRect = panel.getBoundingClientRect();
-                    const targetRect = targetElem.getBoundingClientRect();
-                    const scrollOffset = targetRect.left - panelRect.left + panel.scrollLeft - 8;
-                    panel.scrollTo({ left: scrollOffset, behavior: 'smooth' });
-                }
-            }
         }
 
         function resetAllViews(btnElem) {
             setActiveChip(btnElem);
             document.getElementById('searchInput').value = '';
             document.getElementById('spotlightContainer').style.display = 'none';
+            document.querySelectorAll('.row-column').forEach(card => {
+                card.style.display = 'block';
+            });
             document.querySelectorAll('.rack-box').forEach(rack => {
-                rack.style.display = 'block';
                 rack.open = false;
                 rack.querySelectorAll('.qr-item').forEach(item => item.style.display = 'block');
             });
-            const panel = document.querySelector('.scrollable-grid-panel');
-            if (panel) {
-                panel.scrollTo({ left: 0, behavior: 'smooth' });
-            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function buildRackCardHTML(zoneId, rackNum) {
@@ -446,14 +401,6 @@
                 }
                 container.innerHTML = zoneHTML;
             });
-
-            // Pre-render content for all racks instantly so they aren't blank
-            document.querySelectorAll('.rack-box').forEach(rack => {
-                const bodyElem = rack.querySelector('.rack-body');
-                const zoneId = rack.dataset.zone;
-                const rackNum = parseInt(rack.dataset.racknum, 10);
-                renderRackContent(bodyElem, zoneId, rackNum);
-            });
         }
 
         function debouncedSearch() {
@@ -462,61 +409,4 @@
         }
 
         function runSearch() {
-            const rawQuery = document.getElementById('searchInput').value.trim().toUpperCase();
-            const spotlightBox = document.getElementById('spotlightContainer');
-
-            if (rawQuery === '') {
-                spotlightBox.style.display = 'none';
-                resetAllViews(document.querySelector('.chip-btn'));
-                return;
-            }
-
-            const normalizedQuery = rawQuery.replace(/^F0-/, '').replace(/-+$/, '');
-            document.querySelectorAll('.qr-item').forEach(el => el.classList.remove('spotlight'));
-            document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
-            
-            let foundAny = false;
-            let exactMatchedCode = null;
-
-            document.querySelectorAll('.rack-box').forEach(rack => {
-                const rackCode = rack.getAttribute('data-rackcode');
-                if (rackCode.includes(normalizedQuery) || normalizedQuery.includes(rackCode)) {
-                    rack.style.display = 'block';
-                    foundAny = true;
-                    if (normalizedQuery.length > rackCode.length) {
-                        rack.open = true;
-                        rack.querySelectorAll('.qr-item').forEach(item => {
-                            const code = item.getAttribute('data-code');
-                            if (code.replace(/^F0-/, '').includes(normalizedQuery) || code.includes(rawQuery)) {
-                                item.style.display = 'block';
-                                item.classList.add('spotlight');
-                                if (!exactMatchedCode) { exactMatchedCode = code; }
-                            } else {
-                                item.style.display = 'none';
-                            }
-                        });
-                    }
-                } else {
-                    rack.style.display = 'none';
-                    rack.open = false;
-                }
-            });
-
-            if (exactMatchedCode) {
-                spotlightBox.style.display = 'block';
-                document.getElementById('spotlightCodeText').innerText = exactMatchedCode;
-                const qrTargetDiv = document.getElementById('spotlightQrTarget');
-                qrTargetDiv.innerHTML = '';
-                new QRCode(qrTargetDiv, { text: exactMatchedCode, width: 140, height: 140, correctLevel: QRCode.CorrectLevel.L });
-            } else {
-                spotlightBox.style.display = 'none';
-            }
-
-            updateAnalyticsMetrics(foundAny);
-        }
-
-        // Initialize immediately
-        initLayout();
-    </script>
-</body>
-</html>
+            const rawQuery = document.getElementById('searchInput').value.tr
