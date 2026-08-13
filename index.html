@@ -30,7 +30,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Fixed / Non-collapsing Header */
         header {
             position: relative;
             text-align: center;
@@ -98,7 +97,6 @@
             100% { transform: scale(0.85); opacity: 0.5; }
         }
 
-        /* Search & Filter Chips Bar */
         .search-container { 
             position: sticky; 
             top: 4px; 
@@ -121,7 +119,6 @@
             margin-bottom: 8px;
         }
 
-        /* Filter Chips */
         .filter-chips-container {
             display: flex;
             gap: 6px;
@@ -161,7 +158,6 @@
             border-color: #e11d48;
         }
 
-        /* SPOTLIGHT MATCH PANEL */
         .spotlight-qr-panel {
             display: none;
             background: #fff;
@@ -202,7 +198,6 @@
             display: block;
         }
 
-        /* HORIZONTAL SCROLL GRID */
         .scrollable-grid-panel {
             width: 100%;
             overflow-x: auto;
@@ -271,13 +266,10 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-            max-height: 420px;
-            overflow-y: auto;
             background: #ffffff;
-            scrollbar-width: thin;
+            min-height: 50px;
         }
 
-        /* RACK ACCORDIONS */
         details {
             background: #f8fafc; 
             border: 1.5px solid var(--border-color); 
@@ -335,7 +327,6 @@
             border-radius: 3px;
         }
         
-        /* Grid layout: A & B in same row, C in next line */
         .qr-isolation-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -368,7 +359,6 @@
             border-radius: 2px;
         }
 
-        /* Magnifying Glass View Button below each keyword/code box */
         .item-view-btn {
             background: #fff;
             border: 1px solid #cbd5e1;
@@ -384,7 +374,6 @@
             align-items: center;
             justify-content: center;
             gap: 2px;
-            transition: all 0.2s ease;
         }
         .item-view-btn:active {
             transform: scale(0.95);
@@ -414,7 +403,6 @@
             border-left: 4px solid var(--blinkit-yellow);
         }
 
-        /* FLOATING SCROLL ARROWS */
         .floating-scroll-container {
             position: fixed;
             right: 14px;
@@ -440,7 +428,6 @@
             box-shadow: 0 6px 16px rgba(0,0,0,0.3);
         }
 
-        /* BOTTOM CONTROLS & FOOTER */
         .bottom-control-panel {
             display: flex;
             flex-direction: column;
@@ -557,7 +544,6 @@
 </head>
 <body>
 
-    <!-- FLOATING SCROLL ARROWS -->
     <div class="floating-scroll-container">
         <button class="floating-scroll-btn" onclick="scrollToTop()" title="Scroll to Top">▲</button>
         <button class="floating-scroll-btn" onclick="scrollToBottom()" title="Scroll to Bottom">▼</button>
@@ -576,7 +562,6 @@
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="⚡ Type location code to match instantly..." onkeyup="filterLocations()">
         
-        <!-- FILTER CHIPS -->
         <div class="filter-chips-container">
             <button class="chip-btn clear-chip" onclick="clearFilters()">🔄 Clear All</button>
             <button class="chip-btn" onclick="clipTargetZone('FV01')">🥦 FV</button>
@@ -589,7 +574,6 @@
         </div>
     </div>
 
-    <!-- SPOTLIGHT MATCH PANEL -->
     <div class="spotlight-qr-panel" id="spotlightPanel">
         <div class="spotlight-title">🎯 Spotlight Match Target</div>
         <div class="spotlight-code" id="spotlightCode">---</div>
@@ -600,11 +584,9 @@
         </div>
     </div>
 
-    <!-- MAIN FLOOR MAP -->
     <div class="scrollable-grid-panel">
         <div class="parallel-floor-container" id="floorContainer">
             
-            <!-- LEFT COLUMN: A01 & A07 -->
             <div class="stacked-column-wrapper" id="stackedColLeft">
                 <div class="row-column" id="col-A01">
                     <div class="row-header">Row A01</div>
@@ -616,7 +598,6 @@
                 </div>
             </div>
             
-            <!-- CENTER COLUMN: A02, A03, A04 & Cold Storage -->
             <div class="cold-zone-wrapper" id="coldZoneWrapper">
                 <div class="cold-top-columns" id="coldTopCols">
                     <div class="row-column" id="col-A02">
@@ -633,5 +614,13 @@
                     </div>
                 </div>
 
-                <!-- COLD STORAGE UNITS -->
-                <div class="bottom
+                <div class="bottom-shelf-section" id="coldStorageSection">
+                    <div class="section-banner">Cold Storage & Produce Zone 🥶</div>
+                    <div style="display: flex; gap: 8px;" id="coldUnitsContainer">
+                        <div style="flex: 1;" id="col-FV01" class="cold-unit-col">
+                            <h4 style="margin: 0 0 6px 0; font-size: 10px; font-weight: 900; color: var(--blinkit-green);">🥦 FV01</h4>
+                            <div id="container-FV01" class="racks-accumulator"></div>
+                        </div>
+                        <div style="flex: 1;" id="col-CR01" class="cold-unit-col">
+                            <h4 style="margin: 0 0 6px 0; font-size: 10px; font-weight: 900; color: #0284c7;">🧺 CR01</h4>
+                            <div id="container-CR01" class
