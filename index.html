@@ -104,11 +104,11 @@
             flex-direction: row; 
             align-items: flex-start; 
             gap: 10px; 
-            width: 1250px; 
+            width: 1750px; 
         }
         
         .stacked-column-wrapper { display: flex; flex-direction: column; gap: 8px; width: 250px; flex-shrink: 0; }
-        .cold-zone-wrapper { display: flex; flex-direction: column; gap: 8px; width: 650px; flex-shrink: 0; }
+        .cold-zone-wrapper { display: flex; flex-direction: column; gap: 8px; width: 1150px; flex-shrink: 0; }
         .cold-top-columns { display: flex; gap: 8px; width: 100%; }
 
         .row-column {
@@ -207,12 +207,24 @@
         </div>
     </div>
 
-    <!-- Original Multi-Column Parallel Floor Layout -->
+    <!-- Full Original Parallel Floor Layout with All Rows Restored -->
     <div class="scrollable-grid-panel">
         <div class="parallel-floor-container">
             <div class="cold-zone-wrapper">
                 <div class="cold-top-columns">
-                    <div class="row-column" id="card-A04" style="width: 100%;">
+                    <div class="row-column" id="card-A01">
+                        <div class="row-header">Row A01 <span class="row-badge">acks</span></div>
+                        <div id="container-A01" class="racks-accumulator"></div>
+                    </div>
+                    <div class="row-column" id="card-A02">
+                        <div class="row-header">Row A02 <span class="row-badge">acks</span></div>
+                        <div id="container-A02" class="racks-accumulator"></div>
+                    </div>
+                    <div class="row-column" id="card-A03">
+                        <div class="row-header">Row A03 <span class="row-badge">acks</span></div>
+                        <div id="container-A03" class="racks-accumulator"></div>
+                    </div>
+                    <div class="row-column" id="card-A04">
                         <div class="row-header">Row A04 <span class="row-badge">21 Racks</span></div>
                         <div id="container-A04" class="racks-accumulator"></div>
                     </div>
@@ -246,6 +258,10 @@
                     <div class="row-header row-header-dark">Row A06 <span class="row-badge">15 Racks</span></div>
                     <div id="container-A06" class="racks-accumulator"></div>
                 </div>
+                <div class="row-column" id="card-A07">
+                    <div class="row-header">Row A07 <span class="row-badge">Racks</span></div>
+                    <div id="container-A07" class="racks-accumulator"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -276,9 +292,13 @@
 
     <script>
         const storeConfig = {
+            "A01": { racks: 10, shelves: 8 },
+            "A02": { racks: 10, shelves: 8 },
+            "A03": { racks: 10, shelves: 8 },
             "A04": { racks: 21, shelves: 8 },
             "A05": { racks: 10, shelves: 8 },
             "A06": { racks: 15, shelves: 8 },
+            "A07": { racks: 10, shelves: 8 },
             "CR01": { racks: 14, shelves: 8 },
             "FR01": { racks: 12, shelves: 8 },
             "FV01": { racks: 11, shelves: 7 }
@@ -308,7 +328,8 @@
             if (bodyElem.dataset.rendered === "true") return;
             bodyElem.dataset.rendered = "true";
 
-            const { shelves } = storeConfig[zoneId];
+            const config = storeConfig[zoneId] || { shelves: 8 };
+            const shelves = config.shelves;
             const rackFormatted = String(rackNum).padStart(3, '0');
 
             let positions = ["A", "B", "C"];
