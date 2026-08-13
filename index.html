@@ -361,10 +361,11 @@
             if (targetElem) {
                 const panel = document.querySelector('.scrollable-grid-panel');
                 if (panel) {
-                    const targetLeft = targetElem.offsetLeft - panel.offsetLeft;
-                    panel.scrollTo({ left: targetLeft - 8, behavior: 'smooth' });
+                    const panelRect = panel.getBoundingClientRect();
+                    const targetRect = targetElem.getBoundingClientRect();
+                    const scrollOffset = targetRect.left - panelRect.left + panel.scrollLeft - 8;
+                    panel.scrollTo({ left: scrollOffset, behavior: 'smooth' });
                 }
-                targetElem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
 
@@ -372,6 +373,4 @@
             setActiveChip(btnElem);
             document.getElementById('searchInput').value = '';
             document.getElementById('spotlightContainer').style.display = 'none';
-            document.querySelectorAll('.rack-box').forEach(rack => {
-                rack.style.display = 'block';
-    
+            document.querySelectorAll('.rack-
