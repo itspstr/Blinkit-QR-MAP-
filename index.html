@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BLINKIT STORE QR LAYOUT MAP — PRO</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
@@ -23,141 +23,115 @@
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-light);
-            padding: 10px;
+            padding: 12px;
             color: var(--text-primary);
-            width: 100vw;
-            overflow-x: hidden;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         header {
             text-align: center;
             background: linear-gradient(135deg, #0F172A 100%, #1E293B 0%);
             color: #fff;
-            padding: 14px 10px;
-            border-radius: 12px;
-            margin-bottom: 10px;
+            padding: 16px 12px;
+            border-radius: 14px;
+            margin-bottom: 12px;
             border-bottom: 4px solid var(--blinkit-yellow);
         }
-        header h1 { font-size: 15px; font-weight: 900; color: var(--blinkit-yellow); text-transform: uppercase; }
-        header p { font-size: 9px; color: #94A3B8; margin-top: 2px; }
+        header h1 { font-size: 16px; font-weight: 900; color: var(--blinkit-yellow); text-transform: uppercase; }
+        header p { font-size: 10px; color: #94A3B8; margin-top: 3px; }
 
         .system-status {
-            display: inline-flex; align-items: center; gap: 6px; font-size: 8px;
+            display: inline-flex; align-items: center; gap: 6px; font-size: 9px;
             font-weight: 800; color: #10B981; background: rgba(16, 185, 129, 0.1);
-            padding: 3px 8px; border-radius: 20px; margin-top: 5px;
+            padding: 4px 10px; border-radius: 20px; margin-top: 6px;
             border: 1px solid rgba(16, 185, 129, 0.2);
         }
-        .pulse-dot { width: 5px; height: 5px; background-color: #10B981; border-radius: 50%; }
+        .pulse-dot { width: 6px; height: 6px; background-color: #10B981; border-radius: 50%; }
 
-        .search-container { position: sticky; top: 4px; z-index: 1000; margin-bottom: 10px; background: var(--bg-light); padding-bottom: 4px; }
+        .search-container { position: sticky; top: 6px; z-index: 1000; margin-bottom: 12px; background: var(--bg-light); padding-bottom: 4px; }
         #searchInput {
-            width: 100%; padding: 11px 12px; border: 2.5px solid var(--blinkit-green);
-            border-radius: 10px; font-size: 12px; font-weight: 700; outline: none; background: #FFF;
+            width: 100%; padding: 12px 14px; border: 2.5px solid var(--blinkit-green);
+            border-radius: 12px; font-size: 13px; font-weight: 700; outline: none; background: #FFF;
         }
 
         .quick-chips-wrapper { 
-            display: flex; gap: 5px; margin-top: 6px; overflow-x: auto; 
-            padding-bottom: 4px; scrollbar-width: none; width: 100%;
+            display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; 
+            padding-bottom: 4px; scrollbar-width: none;
         }
         .quick-chips-wrapper::-webkit-scrollbar { display: none; }
         .chip-btn {
-            background: #FFF; border: 1.5px solid var(--border-strong); padding: 5px 10px;
-            border-radius: 16px; font-size: 9px; font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+            background: #FFF; border: 1.5px solid var(--border-strong); padding: 6px 12px;
+            border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; white-space: nowrap; flex-shrink: 0;
         }
         .chip-btn.active { background: var(--blinkit-green); border-color: var(--blinkit-green); color: #FFF; }
 
         #spotlightContainer {
-            display: none; background: #FFF; border: 2.5px solid var(--blinkit-green);
-            border-radius: 10px; padding: 12px; text-align: center; margin-bottom: 10px;
+            display: none; background: #FFF; border: 3px solid var(--blinkit-green);
+            border-radius: 12px; padding: 14px; text-align: center; margin-bottom: 12px;
         }
-        .spotlight-title { font-size: 9px; font-weight: 900; color: var(--blinkit-green); text-transform: uppercase; margin-bottom: 4px; }
-        .spotlight-code-badge { display: inline-block; background: var(--blinkit-yellow); color: #111; font-size: 13px; font-weight: 900; padding: 4px 10px; border-radius: 6px; margin-bottom: 8px; }
-        .spotlight-qr-target { display: inline-block; padding: 6px; background: #FFF; border: 2px solid var(--border-gray); border-radius: 6px; }
+        .spotlight-title { font-size: 10px; font-weight: 900; color: var(--blinkit-green); text-transform: uppercase; margin-bottom: 6px; }
+        .spotlight-code-badge { display: inline-block; background: var(--blinkit-yellow); color: #111; font-size: 14px; font-weight: 900; padding: 5px 12px; border-radius: 6px; margin-bottom: 10px; }
+        .spotlight-qr-target { display: inline-block; padding: 8px; background: #FFF; border: 2px solid var(--border-gray); border-radius: 8px; }
 
-        /* ABSOLUTE RIGID HORIZONTAL CONTAINER (Fixes collapsing on mobile WebKit) */
-        .scrollable-grid-panel { 
-            width: 100%; 
-            overflow-x: scroll; 
-            -webkit-overflow-scrolling: touch; 
-            margin-bottom: 14px; 
-            border: 1px solid var(--border-gray); 
-            border-radius: 12px; 
-            background: #EDF2F7;
-            padding: 10px 6px;
-        }
-        .parallel-floor-container { 
-            display: flex; 
-            flex-direction: row; 
-            align-items: flex-start; 
-            gap: 8px; 
-            width: 1400px; /* Forces complete structural width layout */
-        }
-        
-        .stacked-column-wrapper { display: flex; flex-direction: column; gap: 8px; width: 250px; flex-shrink: 0; }
-        .cold-zone-wrapper { display: flex; flex-direction: column; gap: 8px; width: 780px; flex-shrink: 0; }
-        .cold-top-columns { display: flex; gap: 8px; width: 100%; }
+        /* Stable Vertical Stack Container */
+        .layout-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
 
         .row-column {
-            width: 100%; background: var(--card-bg); border-radius: 10px;
+            width: 100%; background: var(--card-bg); border-radius: 12px;
             border: 1px solid var(--border-gray); overflow: hidden;
         }
         .row-header {
-            font-size: 11px; font-weight: 900; color: #FFF; background: var(--blinkit-green);
-            padding: 9px 10px; display: flex; justify-content: space-between; align-items: center;
+            font-size: 12px; font-weight: 900; color: #FFF; background: var(--blinkit-green);
+            padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;
         }
         .row-header-dark { background: var(--blinkit-dark); }
-        .row-badge { font-size: 8px; background: rgba(255,255,255,0.2); padding: 2px 5px; border-radius: 4px; font-weight: 800; }
+        .row-badge { font-size: 9px; background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 4px; font-weight: 800; }
 
-        .racks-accumulator { padding: 6px; min-height: 30px; }
+        .racks-accumulator { padding: 8px; }
 
         details.rack-box {
-            background: #F8FAFC; border: 1.5px solid var(--border-gray); border-radius: 6px;
-            margin-bottom: 5px; overflow: hidden;
+            background: #F8FAFC; border: 1.5px solid var(--border-gray); border-radius: 8px;
+            margin-bottom: 8px; overflow: hidden;
         }
         details.rack-box[open] { border-color: var(--blinkit-green); background: #FFF; }
         summary.rack-summary {
-            padding: 9px; font-size: 10px; font-weight: 800; color: var(--text-primary);
+            padding: 10px 12px; font-size: 11px; font-weight: 800; color: var(--text-primary);
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            background: #F1F5F9; border-radius: 5px; user-select: none;
+            background: #F1F5F9; border-radius: 6px; user-select: none;
         }
         summary.rack-summary::-webkit-details-marker { display: none; }
 
-        .rack-body { padding: 4px 0; background: #FFF; }
-        .shelf-block { padding: 6px; border-top: 1px solid var(--border-gray); }
-        .shelf-title { font-size: 8px; font-weight: 900; background: #334155; color: #FFF; padding: 2px 5px; border-radius: 3px; margin-bottom: 5px; display: inline-block; }
+        .rack-body { padding: 6px 0; background: #FFF; }
+        .shelf-block { padding: 8px; border-top: 1px solid var(--border-gray); }
+        .shelf-title { font-size: 9px; font-weight: 900; background: #334155; color: #FFF; padding: 3px 8px; border-radius: 4px; margin-bottom: 6px; display: inline-block; }
 
-        .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 5px; }
-        .qr-item { background: #F8FAFC; border: 1px solid var(--border-gray); border-radius: 5px; padding: 4px 2px; text-align: center; }
-        .qr-item span { display: block; font-size: 7px; font-weight: 800; color: var(--text-muted); margin-bottom: 2px; }
-        .qr-box-target { background: #FFF; border-radius: 3px; }
+        .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; }
+        .qr-item { background: #F8FAFC; border: 1px solid var(--border-gray); border-radius: 6px; padding: 6px 4px; text-align: center; }
+        .qr-item span { display: block; font-size: 8px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; }
+        .qr-box-target { background: #FFF; border-radius: 4px; }
 
-        .qr-item.spotlight { border: 2px solid #EF4444 !important; background: #FEF08A !important; transform: scale(1.02); }
+        .qr-item.spotlight { border: 2px solid #EF4444 !important; background: #FEF08A !important; transform: scale(1.03); }
 
-        .bottom-shelf-section { 
-            background: var(--card-bg); border-radius: 10px; padding: 10px; 
-            border: 1px solid var(--border-gray); width: 100%;
-        }
-        .section-banner { background: var(--blinkit-dark); color: #FFF; text-align: center; font-size: 10px; font-weight: 900; padding: 7px; border-radius: 5px; margin-bottom: 8px; }
-
-        .bottom-controls-section { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .analytics-toggle-bar { display: flex; justify-content: center; gap: 14px; padding: 8px; background: var(--card-bg); border: 1px solid var(--border-gray); border-radius: 8px; }
-        .radio-label { font-size: 10px; font-weight: 700; display: flex; align-items: center; gap: 5px; cursor: pointer; color: var(--text-muted); }
+        .bottom-controls-section { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+        .analytics-toggle-bar { display: flex; justify-content: center; gap: 16px; padding: 10px; background: var(--card-bg); border: 1px solid var(--border-gray); border-radius: 10px; }
+        .radio-label { font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-muted); }
         .radio-label input { accent-color: var(--blinkit-green); }
 
-        .analytics-dashboard { display: none; background: var(--card-bg); border: 1px solid var(--border-gray); border-radius: 8px; padding: 10px; }
-        .analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-        .metric-card { background: #F8FAFC; border: 1px solid var(--border-gray); border-radius: 5px; padding: 8px; text-align: center; }
-        .metric-val { font-size: 16px; font-weight: 900; }
+        .analytics-dashboard { display: none; background: var(--card-bg); border: 1px solid var(--border-gray); border-radius: 10px; padding: 12px; }
+        .analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .metric-card { background: #F8FAFC; border: 1px solid var(--border-gray); border-radius: 6px; padding: 10px; text-align: center; }
+        .metric-val { font-size: 18px; font-weight: 900; }
 
         .bottom-app-banner {
             background: #111827; border: 1px solid var(--border-gray); border-top: 3px solid var(--blinkit-yellow);
-            border-radius: 8px; padding: 9px 12px; display: flex; align-items: center; justify-content: space-between;
+            border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
         }
-        .download-app-btn { font-size: 9px; font-weight: 900; color: #111; background: var(--blinkit-yellow); padding: 7px 10px; border-radius: 5px; text-decoration: none; }
+        .download-app-btn { font-size: 10px; font-weight: 900; color: #111; background: var(--blinkit-yellow); padding: 8px 12px; border-radius: 6px; text-decoration: none; }
 
-        footer { text-align: center; padding: 8px; font-size: 9px; color: var(--text-muted); }
+        footer { text-align: center; padding: 12px; font-size: 10px; color: var(--text-muted); }
         footer span { color: var(--text-primary); font-weight: 900; }
-        footer small { display: block; font-size: 8px; color: var(--blinkit-green); font-weight: 800; }
+        footer small { display: block; font-size: 9px; color: var(--blinkit-green); font-weight: 800; margin-top: 2px; }
     </style>
 </head>
 <body>
@@ -174,9 +148,13 @@
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="⚡ Type location code (e.g. A01 or A01-001-01-B)..." oninput="debouncedSearch()">
         <div class="quick-chips-wrapper">
+            <button class="chip-btn" onclick="filterByZone('A01', this)">⚡ A01</button>
+            <button class="chip-btn" onclick="filterByZone('A02', this)">⚡ A02</button>
+            <button class="chip-btn" onclick="filterByZone('A03', this)">⚡ A03</button>
             <button class="chip-btn" onclick="filterByZone('A04', this)">⚡ A04</button>
             <button class="chip-btn" onclick="filterByZone('A05', this)">⚡ A05</button>
             <button class="chip-btn" onclick="filterByZone('A06', this)">⚡ A06</button>
+            <button class="chip-btn" onclick="filterByZone('A07', this)">⚡ A07</button>
             <button class="chip-btn" onclick="filterByZone('FV01', this)">🥦 FV01</button>
             <button class="chip-btn" onclick="filterByZone('CR01', this)">🧺 CR01</button>
             <button class="chip-btn" onclick="filterByZone('FR01', this)">❄️ FR01</button>
@@ -192,35 +170,17 @@
         </div>
     </div>
 
-    <div class="scrollable-grid-panel">
-        <div class="parallel-floor-container">
-            <div class="stacked-column-wrapper">
-                <div class="row-column" id="card-A01"><div class="row-header">Row A01 <span class="row-badge">32 Racks</span></div><div id="container-A01" class="racks-accumulator"></div></div>
-                <div class="row-column" id="card-A07"><div class="row-header row-header-dark">Row A07 <span class="row-badge">8 Racks</span></div><div id="container-A07" class="racks-accumulator"></div></div>
-            </div>
-
-            <div class="cold-zone-wrapper">
-                <div class="cold-top-columns">
-                    <div class="row-column" id="card-A02"><div class="row-header">Row A02 <span class="row-badge">25 Racks</span></div><div id="container-A02" class="racks-accumulator"></div></div>
-                    <div class="row-column" id="card-A03"><div class="row-header">Row A03 <span class="row-badge">23 Racks</span></div><div id="container-A03" class="racks-accumulator"></div></div>
-                    <div class="row-column" id="card-A04"><div class="row-header">Row A04 <span class="row-badge">21 Racks</span></div><div id="container-A04" class="racks-accumulator"></div></div>
-                </div>
-
-                <div class="bottom-shelf-section" id="cold-zone-section">
-                    <div class="section-banner">🥶 Cold Stuff Zone</div>
-                    <div style="display: flex; gap: 6px;">
-                        <div style="flex: 1;" id="sub-FV01"><h4 style="font-size: 9px; color: var(--blinkit-green); margin-bottom: 3px; font-weight: 800;">🥦 FV01</h4><div id="container-FV01" class="racks-accumulator"></div></div>
-                        <div style="flex: 1;" id="sub-CR01"><h4 style="font-size: 9px; color: #0284C7; margin-bottom: 3px; font-weight: 800;">🧺 CR01</h4><div id="container-CR01" class="racks-accumulator"></div></div>
-                        <div style="flex: 1;" id="sub-FR01"><h4 style="font-size: 9px; color: #7C3AED; margin-bottom: 3px; font-weight: 800;">❄️ FR01</h4><div id="container-FR01" class="racks-accumulator"></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stacked-column-wrapper">
-                <div class="row-column" id="card-A05"><div class="row-header">Row A05 <span class="row-badge">10 Racks</span></div><div id="container-A05" class="racks-accumulator"></div></div>
-                <div class="row-column" id="card-A06"><div class="row-header row-header-dark">Row A06 <span class="row-badge">15 Racks</span></div><div id="container-A06" class="racks-accumulator"></div></div>
-            </div>
-        </div>
+    <div class="layout-stack" id="mainLayoutStack">
+        <div class="row-column" id="card-A01"><div class="row-header">Row A01 <span class="row-badge">32 Racks</span></div><div id="container-A01" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-A02"><div class="row-header">Row A02 <span class="row-badge">25 Racks</span></div><div id="container-A02" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-A03"><div class="row-header">Row A03 <span class="row-badge">23 Racks</span></div><div id="container-A03" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-A04"><div class="row-header">Row A04 <span class="row-badge">21 Racks</span></div><div id="container-A04" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-A05"><div class="row-header">Row A05 <span class="row-badge">10 Racks</span></div><div id="container-A05" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-A06"><div class="row-header row-header-dark">Row A06 <span class="row-badge">15 Racks</span></div><div id="container-A06" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-A07"><div class="row-header row-header-dark">Row A07 <span class="row-badge">8 Racks</span></div><div id="container-A07" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-FV01"><div class="row-header" style="background:var(--blinkit-green);">🥦 FV01 (Vegetables) <span class="row-badge">11 Racks</span></div><div id="container-FV01" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-CR01"><div class="row-header" style="background:#0284C7;">🧺 CR01 (Crates) <span class="row-badge">14 Racks</span></div><div id="container-CR01" class="racks-accumulator"></div></div>
+        <div class="row-column" id="card-FR01"><div class="row-header" style="background:#7C3AED;">❄️ FR01 (Freezer) <span class="row-badge">12 Racks</span></div><div id="container-FR01" class="racks-accumulator"></div></div>
     </div>
 
     <div class="bottom-controls-section">
@@ -231,13 +191,13 @@
 
         <div class="analytics-dashboard" id="analyticsPanel">
             <div class="analytics-grid">
-                <div class="metric-card"><div class="metric-val" style="color:var(--blinkit-green)" id="valTotal">0</div><div style="font-size:7px; color:var(--text-muted); font-weight:800;">TOTAL SEARCHES</div></div>
-                <div class="metric-card"><div class="metric-val" style="color:var(--blinkit-green)" id="valSuccess">0</div><div style="font-size:7px; color:var(--text-muted); font-weight:800;">SUCCESSFUL</div></div>
+                <div class="metric-card"><div class="metric-val" style="color:var(--blinkit-green)" id="valTotal">0</div><div style="font-size:8px; color:var(--text-muted); font-weight:800;">TOTAL SEARCHES</div></div>
+                <div class="metric-card"><div class="metric-val" style="color:var(--blinkit-green)" id="valSuccess">0</div><div style="font-size:8px; color:var(--text-muted); font-weight:800;">SUCCESSFUL</div></div>
             </div>
         </div>
 
         <div class="bottom-app-banner">
-            <span style="font-size:9px; color:#FFF">⚡ <strong>No internet?</strong> Access layout offline.</span>
+            <span style="font-size:10px; color:#FFF">⚡ <strong>No internet?</strong> Access layout offline.</span>
             <a href="https://github.com/itspstr/Blinkit-QR-MAP-/releases/download/V.1.0.0/app-release.apk" class="download-app-btn" target="_blank">📲 Download App</a>
         </div>
     </div>
@@ -308,7 +268,7 @@
                     qrBoxesHTML += `
                         <div class="qr-item" data-code="${fullCode}">
                             <span>${fullCode}</span>
-                            <div class="qr-box-target" data-code="${fullCode}" style="width:60px; height:60px; margin:0 auto;"></div>
+                            <div class="qr-box-target" data-code="${fullCode}" style="width:70px; height:70px; margin:0 auto;"></div>
                         </div>
                     `;
                 });
@@ -328,7 +288,7 @@
                 qrBoxes.forEach(box => {
                     const code = box.getAttribute('data-code');
                     box.innerHTML = '';
-                    new QRCode(box, { text: code, width: 60, height: 60, correctLevel: QRCode.CorrectLevel.L });
+                    new QRCode(box, { text: code, width: 70, height: 70, correctLevel: QRCode.CorrectLevel.L });
                 });
             }
         }
@@ -339,12 +299,12 @@
             document.getElementById('spotlightContainer').style.display = 'none';
             document.querySelectorAll('.qr-item').forEach(el => el.classList.remove('spotlight'));
 
-            document.querySelectorAll('.rack-box').forEach(rack => {
-                if (rack.getAttribute('data-rackcode').startsWith(zoneId)) {
-                    rack.style.display = 'block';
-                    rack.open = false;
+            document.querySelectorAll('.row-column').forEach(card => {
+                if (card.id === `card-${zoneId}`) {
+                    card.style.display = 'block';
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
-                    rack.style.display = 'none';
+                    card.style.display = 'none';
                 }
             });
             updateAnalyticsMetrics(true);
@@ -354,8 +314,10 @@
             setActiveChip(btnElem);
             document.getElementById('searchInput').value = '';
             document.getElementById('spotlightContainer').style.display = 'none';
+            document.querySelectorAll('.row-column').forEach(card => {
+                card.style.display = 'block';
+            });
             document.querySelectorAll('.rack-box').forEach(rack => {
-                rack.style.display = 'block';
                 rack.open = false;
                 rack.querySelectorAll('.qr-item').forEach(item => item.style.display = 'block');
             });
@@ -377,4 +339,90 @@
                 const container = document.getElementById(`container-${zoneId}`);
                 if (!container) return;
                 const { racks } = storeConfig[zoneId];
-              
+                let zoneHTML = '';
+                for (let r = 1; r <= racks; r++) { zoneHTML += buildRackCardHTML(zoneId, r); }
+                container.innerHTML = zoneHTML;
+            });
+        }
+
+        function debouncedSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(runSearch, 300);
+        }
+
+        function runSearch() {
+            const rawQuery = document.getElementById('searchInput').value.trim().toUpperCase();
+            const spotlightBox = document.getElementById('spotlightContainer');
+
+            if (rawQuery === '') {
+                spotlightBox.style.display = 'none';
+                resetAllViews();
+                return;
+            }
+
+            const normalizedQuery = rawQuery.replace(/^F0-/, '').replace(/-+$/, '');
+            document.querySelectorAll('.qr-item').forEach(el => el.classList.remove('spotlight'));
+            document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+            
+            let foundAny = false;
+            let targetToScroll = null;
+            let exactMatchedCode = null;
+
+            document.querySelectorAll('.row-column').forEach(card => {
+                const zoneId = card.id.replace('card-', '');
+                if (normalizedQuery.includes(zoneId) || zoneId.includes(normalizedQuery)) {
+                    card.style.display = 'block';
+                    foundAny = true;
+                }
+            });
+
+            document.querySelectorAll('.rack-box').forEach(rack => {
+                const rackCode = rack.getAttribute('data-rackcode');
+                if (rackCode.includes(normalizedQuery) || normalizedQuery.includes(rackCode)) {
+                    rack.closest('.row-column').style.display = 'block';
+                    rack.style.display = 'block';
+                    foundAny = true;
+                    if (normalizedQuery.length > rackCode.length) {
+                        rack.open = true;
+                        handleRackToggle(rack);
+                        rack.querySelectorAll('.qr-item').forEach(item => {
+                            const code = item.getAttribute('data-code');
+                            if (code.replace(/^F0-/, '').includes(normalizedQuery) || code.includes(rawQuery)) {
+                                item.style.display = 'block';
+                                item.classList.add('spotlight');
+                                if (!targetToScroll) { targetToScroll = item; exactMatchedCode = code; }
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    }
+                } else {
+                    if (rawQuery.length > 3) {
+                        rack.style.display = 'none';
+                    }
+                }
+            });
+
+            if (exactMatchedCode) {
+                spotlightBox.style.display = 'block';
+                document.getElementById('spotlightCodeText').innerText = exactMatchedCode;
+                const qrTargetDiv = document.getElementById('spotlightQrTarget');
+                qrTargetDiv.innerHTML = '';
+                new QRCode(qrTargetDiv, { text: exactMatchedCode, width: 140, height: 140, correctLevel: QRCode.CorrectLevel.L });
+            } else {
+                spotlightBox.style.display = 'none';
+            }
+
+            if (targetToScroll) {
+                setTimeout(() => {
+                    targetToScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 150);
+            }
+
+            updateAnalyticsMetrics(foundAny);
+        }
+
+        initLayout();
+    </script>
+</body>
+</html>
