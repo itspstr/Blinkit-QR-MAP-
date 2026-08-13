@@ -104,12 +104,12 @@
             flex-direction: row; 
             align-items: flex-start; 
             gap: 10px; 
-            width: 1420px; 
+            width: 100%; 
+            min-width: 650px;
         }
         
         .stacked-column-wrapper { display: flex; flex-direction: column; gap: 8px; width: 250px; flex-shrink: 0; }
-        .cold-zone-wrapper { display: flex; flex-direction: column; gap: 8px; width: 800px; flex-shrink: 0; }
-        .cold-top-columns { display: flex; gap: 8px; width: 100%; }
+        .main-zone-wrapper { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 300px; }
 
         .row-column {
             width: 100%; background: var(--card-bg); border-radius: 10px;
@@ -207,15 +207,13 @@
         </div>
     </div>
 
-    <!-- Original Multi-Column Parallel Floor Layout (A01, A02, A03, A07 removed) -->
+    <!-- Layout Grid Panel -->
     <div class="scrollable-grid-panel">
-        <div class="parallel-floor-container" style="width: 1000px;">
-            <div class="cold-zone-wrapper" style="width: 700px;">
-                <div class="cold-top-columns">
-                    <div class="row-column" id="card-A04" style="width: 100%;">
-                        <div class="row-header">Row A04 <span class="row-badge">21 Racks</span></div>
-                        <div id="container-A04" class="racks-accumulator"></div>
-                    </div>
+        <div class="parallel-floor-container">
+            <div class="main-zone-wrapper">
+                <div class="row-column" id="card-A04">
+                    <div class="row-header">Row A04 <span class="row-badge">21 Racks</span></div>
+                    <div id="container-A04" class="racks-accumulator"></div>
                 </div>
 
                 <div class="bottom-shelf-section" id="cold-zone-section">
@@ -237,7 +235,7 @@
                 </div>
             </div>
 
-            <div class="stacked-column-wrapper" style="width: 280px;">
+            <div class="stacked-column-wrapper">
                 <div class="row-column" id="card-A05">
                     <div class="row-header">Row A05 <span class="row-badge">10 Racks</span></div>
                     <div id="container-A05" class="racks-accumulator"></div>
@@ -401,4 +399,7 @@
 
         function buildRackCardHTML(zoneId, rackNum) {
             const rackFormatted = String(rackNum).padStart(3, '0');
-            const rackCode = `
+            const rackCode = `${zoneId}-${rackFormatted}`;
+            return `
+                <details class="rack-box" data-zone="${zoneId}" data-racknum="${rackNum}" data-rackcode="${rackCode}" ontoggle="handleRackToggle(this)">
+                    <summary class="rack-summary">📦 ${rackCode}</sum
