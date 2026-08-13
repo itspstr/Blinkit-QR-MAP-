@@ -389,4 +389,117 @@
                 targetElem = document.getElementById(`sub-${zoneId}`);
             }
             if (targetElem) {
-                const panel = document.query
+                const panel = document.querySelector('.scrollable-grid-panel');
+                if (panel) {
+                    const panelRect = panel.getBoundingClientRect();
+                    const targetRect = targetElem.getBoundingClientRect();
+                    const scrollOffset = targetRect.left - panelRect.left + panel.scrollLeft - 8;
+                    panel.scrollTo({ left: scrollOffset, behavior: 'smooth' });
+                }
+            }
+        }
+
+        function resetAllViews(btnElem) {
+            setActiveChip(btnElem);
+            document.getElementById('searchInput').value = '';
+            document.getElementById('spotlightContainer').style.display = 'none';
+            document.querySelectorAll('.rack-box').forEach(rack => {
+                rack.style.display = 'block';
+                rack.open = false;
+                rack.querySelectorAll('.qr-item').forEach(item => item.style.display = 'block');
+            });
+            const panel = document.querySelector('.scrollable-grid-panel');
+            if (panel) {
+                panel.scrollTo({ left: 0, behavior: 'smooth' });
+            }
+        }
+
+        function buildRackCardHTML(zoneId, rackNum) {
+            const rackFormatted = String(rackNum).padStart(3, '0');
+            const rackCode = `${zoneId}-${rackFormatted}`;
+            return `
+                <details class="rack-box" data-zone="${zoneId}" data-racknum="${rackNum}" data-rackcode="${rackCode}" ontoggle="handleRackToggle(this)">
+                    <summary class="rack-summary">📦 ${rackCode}</summary>
+                    <div class="rack-body"></div>
+                </details>
+            `;
+        }
+
+        function initLayout() {
+            Object.keys(storeConfig).forEach(zoneId => {
+                const container = document.getElementById(`container-${zoneId}`);
+                if (!container) return;
+                const { racks } = storeConfig[zoneId];
+                let zoneHTML = '';
+                for (let r = 1; r <= racks; r++) { 
+                    zoneHTML += buildRackCardHTML(zoneId, r); 
+                }
+                container.innerHTML = zoneHTML;
+            });
+        }
+
+        function debouncedSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(runSearch, 300);
+        }
+
+        function runSearch() {
+            const rawQuery = document.getElementById('searchInput').value.trim().toUpperCase();
+            const spotlightBox = document.getElementById('spotlightContainer');
+
+            if (rawQuery === '') {
+                spotlightBox.style.display = 'none';
+                resetAllViews(document.querySelector('.chip-btn'));
+                return;
+            }
+
+            const normalizedQuery = rawQuery.replace(/^F0-/, '').replace(/-+$/, '');
+            document.querySelectorAll('.qr-item').forEach(el => el.classList.remove('spotlight'));
+            document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+            
+            let foundAny = false;
+            let exactMatchedCode = null;
+
+            document.querySelectorAll('.rack-box').forEach(rack => {
+                const rackCode = rack.getAttribute('data-rackcode');
+                if (rackCode.includes(normalizedQuery) || normalizedQuery.includes(rackCode)) {
+                    rack.style.display = 'block';
+                    foundAny = true;
+                    if (normalizedQuery.length > rackCode.length) {
+                        rack.open = true;
+                        handleRackToggle(rack);
+                        rack.querySelectorAll('.qr-item').forEach(item => {
+                            const code = item.getAttribute('data-code');
+                            if (code.replace(/^F0-/, '').includes(normalizedQuery) || code.includes(rawQuery)) {
+                                item.style.display = 'block';
+                                item.classList.add('spotlight');
+                                if (!exactMatchedCode) { exactMatchedCode = code; }
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    }
+                } else {
+                    rack.style.display = 'none';
+                    rack.open = false;
+                }
+            });
+
+            if (exactMatchedCode) {
+                spotlightBox.style.display = 'block';
+                document.getElementById('spotlightCodeText').innerText = exactMatchedCode;
+                const qrTargetDiv = document.getElementById('spotlightQrTarget');
+                qrTargetDiv.innerHTML = '';
+                new QRCode(qrTargetDiv, { text: exactMatchedCode, width: 140, height: 140, correctLevel: QRCode.CorrectLevel.L });
+            } else {
+                spotlightBox.style.display = 'none';
+            }
+
+            updateAnalyticsMetrics(foundAny);
+        }
+
+        // Initialize immediately
+        initLayout();
+    </script>
+</body>
+</html>
